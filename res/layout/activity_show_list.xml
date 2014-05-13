@@ -4,49 +4,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/gainsboro"
+   
     tools:context=".ShowListActivity" >
 
-    <TextView
+    <org.whut.utils.BottomTextView
         android:id="@+id/tv_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="35dp"
         android:layout_gravity="center"
-        android:paddingTop="20dp"
-        android:textSize="20sp" />
+        android:gravity="center_horizontal|center_vertical"
+        android:textStyle="bold"
+        android:background="@drawable/draw4"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_height="30dp"
         android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp" >
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@color/whitesmoke" >
 
-        <TextView
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.8"
+        <org.whut.utils.BoderTextView
+             android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="1"
             android:gravity="center"
-            android:singleLine="true"
             android:text="@string/riskValue"
             android:textSize="15sp" />
 
-        <TextView
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1.8"
+        <org.whut.utils.BoderTextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_weight="5"
             android:gravity="center"
-            android:singleLine="true"
             android:text="@string/company_name"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_types"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:layout_gravity="center"
-            android:layout_weight="1.8"
+            android:gravity="center"
+            android:layout_weight="1"
             android:text="@string/device_types" />
     </LinearLayout>
 
@@ -63,6 +64,6 @@
         android:id="@+id/likeActonbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/layout_likeactionbar" />
+       layout="@layout/layout_likeactionbar" />
 
 </LinearLayout>
