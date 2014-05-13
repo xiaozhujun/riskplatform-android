@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">起重机械风险管理平台</string>
+    <string name="action_settings">设置</string>
+    <string name="username">用户名：</string>
+    <string name="username_hint">请输入用户名</string>
+    <string name="check_code_hint">请输入验证码</string>
+    <string name="password">密　码：</string>
+    <string name="show_password">显示密码</string>
+    <string name="forget_password">忘记密码？</string>
+    <string name="check_code">验证码：</string>
+    <string name="types">类　别：</string>
+    <string name="login">登　录</string>
+    <string name="title_activity_search">查询</string>
+    <string name="conditions">条件筛选</string>
+    <string name="area">区域</string>
+    <string name="kind">类型</string>
+    <string name="risk_level">风险等级</string>
+    <string name="submit">确定</string>
+    <string name="morecon">更多条件</string>
+    <string name="selection">更多条件</string>
+    <string name="name">单位名称</string>
+    <string name="id">设备编号</string>
+    <string name="person">管理人员</string>
+    <string name="info">制造信息</string>
+    <string name="button">确定</string>
+    <string name="btn_show_rank">风险排行</string>
+    <string name="btn_show_list">列表</string>
+    <string name="title_activity_list">ListActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_info">InfoActivity</string>
+    <string name="company_names">机构名称</string>
+    <string name="device_info">设备信息</string>
+    <string name="company_name">单位名称</string>
+    <string name="company_code">组织机构代码</string>
+    <string name="company_places">使用地点</string>
+    <string name="company_manager">安全管理人员</string>
+    <string name="company_phone">联系电话</string>
+    <string name="company_device_types">设备品种</string>
+    <string name="company_inner_code">单位内部编号</string>
+    <string name="company_conclusion">结论</string>
+    <string name="see_detail">详情</string>
+    <string name="riskValue">风险值</string>
+    <string name="equipmentVariety">设备类型：</string>
+    <string name="riskvalue">风险值：</string>
+    <string name="userPoint">使用地点：</string>
+    <string name="rank">中国风险排名</string>
+    <string name="rank_num">排名</string>
+    <string name="rankvalue">风险值</string>
+    <string name="rankprovince">省</string>
+    <string name="rankcity">市</string>
+    <string name="rankarea">区</string>
+    <string name="device_types">设备类型</string>
+    <string name="image">图片</string>
+    <string name="ed_hint">请输入您要查找的省市区</string>
+    <string name="rankplace">使用地点</string>
+    <string name="roll_up">收　起　↑</string>
+    <string name="reportNumber">编号</string>
+    <string name="address_Id">地址编号</string>
+    <string name="manufacture_Unit">生产单位</string>
+    <string name="manufacture_Date">生产日期</string>
+    <string name="Specification">规格</string>
+    <string name="RatedLiftWeight">额定起重量</string>
+
+</resources>

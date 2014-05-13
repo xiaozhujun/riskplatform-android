@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.whut.platform"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:theme="@style/AppTheme"
+        android:label="@string/app_name"
+        >
+
+        <activity android:name="org.whut.platform.MainActivity" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="org.whut.platform.RankActivity" >
+        </activity>
+        <activity android:name="org.whut.platform.ShowListActivity" />
+        <activity android:name="org.whut.platform.MapActivity" />
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="4rGTVTFx2NnY7cyZi6mEdNj3" />
+
+        <activity android:name="org.whut.platform.ListActivity" >
+        </activity>
+        <activity android:name="org.whut.platform.InfoActivity" >
+        </activity>
+        <activity android:name="org.whut.platform.EquipInfoActivity" >
+        </activity>
+                <activity android:name="org.whut.platform.AreaRankActivity" >
+        </activity>
+                <activity android:name="org.whut.platform.CityRankActivity" >
+        </activity>
+                <activity android:name="org.whut.platform.PlaceRankActivity" >
+        </activity>
+        
+    </application>
+
+</manifest>
