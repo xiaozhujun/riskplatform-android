@@ -1,430 +1,439 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".InfoActivity" >
 
-<LinearLayout
-    android:id="@+id/layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    >
-    <org.whut.utils.BottomTextView 
+
+    <ScrollView
+        android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
-        android:text="@string/device_info"
-        android:background="@drawable/draw4"
-        android:textSize="18sp" />
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="0dip" 
-        android:orientation="vertical"
-        android:layout_weight="1"
-        >
-
-       
-     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
-
-            <TextView 
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/company_name" />
-
-            <TextView 
-                android:id="@+id/unitAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false" />
-        </LinearLayout>
-
-         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
-
-            <TextView 
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/address_Id" />
-
-            <TextView 
-                android:id="@+id/addressId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false" />
-        </LinearLayout>
-        
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
-
-            <TextView 
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text="@string/company_code" />
-
-            <TextView 
-                android:id="@+id/organizeCode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false" />
-        </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_weight="10" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
 
-            <TextView 
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+            <org.whut.utils.BottomTextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:background="@drawable/draw4"
+                android:gravity="center_horizontal"
+                android:text="@string/device_info"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="0dip"
                 android:layout_weight="1"
-                android:text="@string/company_places" />
+                android:orientation="vertical" >
 
-            <TextView 
-                android:id="@+id/usePoint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/company_name" />
+
+                    <TextView
+                        android:id="@+id/unitAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/address_Id" />
+
+                    <TextView
+                        android:id="@+id/addressId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/company_code" />
+
+                    <TextView
+                        android:id="@+id/organizeCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/company_places" />
+
+                    <TextView
+                        android:id="@+id/usePoint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/company_manager" />
+
+                    <TextView
+                        android:id="@+id/safeManager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/company_phone" />
+
+                    <TextView
+                        android:id="@+id/contactPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/company_device_types" />
+
+                    <TextView
+                        android:id="@+id/equipmentVariety"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="@string/company_inner_code" />
+
+                    <TextView
+                        android:id="@+id/unitNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/manufacture_Unit" />
+
+                    <TextView
+                        android:id="@+id/manufactureUnit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/manufacture_Date" />
+
+                    <TextView
+                        android:id="@+id/manufactureDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/Specification" />
+
+                    <TextView
+                        android:id="@+id/specification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="top|left"
+                        android:layout_weight="1"
+                        android:text="@string/company_conclusion" />
+
+                    <TextView
+                        android:id="@+id/workLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/riskvalue" />
+
+                    <TextView
+                        android:id="@+id/riskValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingTop="5dp" >
+
+                    <TextView
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:text="@string/RatedLiftWeight" />
+
+                    <TextView
+                        android:id="@+id/ratedLiftWeight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:gravity="center_vertical"
+                        android:maxEms="3"
+                        android:paddingLeft="10dp"
+                        android:singleLine="false" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
-
-            <TextView 
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text="@string/company_manager" />
-
-            <TextView 
-                android:id="@+id/safeManager"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
-
-            <TextView 
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text="@string/company_phone" />
-
-            <TextView 
-                android:id="@+id/contactPhone"
-               android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp">
-
-            <TextView 
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text="@string/company_device_types" />
-
-            <TextView 
-                android:id="@+id/equipmentVariety"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp">
-
-            <TextView 
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:text="@string/company_inner_code" />
-
-            <TextView 
-                android:id="@+id/unitNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false"/>
-        </LinearLayout>
-
-         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
-
-            <TextView 
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/manufacture_Unit" />
-
-            <TextView 
-                android:id="@+id/manufactureUnit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false" />
-        </LinearLayout>
-        
-          <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
-
-            <TextView 
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/manufacture_Date" />
-
-            <TextView 
-                android:id="@+id/manufactureDate"
-              android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false" />
-        </LinearLayout>
-        
-           <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
-
-            <TextView 
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/Specification" />
-
-            <TextView 
-                android:id="@+id/specification"
-               android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false" />
-        </LinearLayout>
-        
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp">
-
-            <TextView 
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|left"
-                android:layout_weight="1"
-                android:text="@string/company_conclusion" />
-
-            <TextView 
-                android:id="@+id/workLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false" />
-        </LinearLayout>
-        
-         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
-
-            <TextView 
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/riskvalue" />
-
-            <TextView 
-                android:id="@+id/riskValue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false" />
-        </LinearLayout>
-         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
-
-            <TextView 
-                android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:text="@string/RatedLiftWeight" />
-
-            <TextView 
-                android:id="@+id/ratedLiftWeight"
-               android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:maxEms="3"
-                android:paddingLeft="10dp"
-                android:singleLine="false"/>
-        </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 
     <include
         android:id="@+id/likeActonbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         layout="@layout/layout_likeactionbar" />
 
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>

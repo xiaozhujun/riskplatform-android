@@ -33,15 +33,19 @@
             android:background="@drawable/shape"
             android:drawableLeft="@drawable/ic_search"
             android:hint="@string/ed_hint"
-            android:padding="7dp"
+            android:padding="5dp"
             android:singleLine="true"
-            android:textColor="#FFFAFA" />
+            android:textColor="#FFFAFA"
+            android:textSize="15sp" />
+
 
         <LinearLayout
             android:id="@+id/sp_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:background="@drawable/button_on"
             android:visibility="gone" >
 
