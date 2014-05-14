@@ -20,35 +20,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:background="@color/whitesmoke" >
+        android:background="@color/whitesmoke"
+        android:orientation="horizontal" >
 
         <org.whut.utils.BoderTextView
-             android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_weight="1"
+            android:layout_weight="2.2"
             android:gravity="center"
             android:text="@string/riskValue"
             android:textSize="15sp" />
 
         <org.whut.utils.BoderTextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_weight="5"
+            android:layout_weight="1.2"
             android:gravity="center"
             android:text="@string/company_name"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_types"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_gravity="center"
+            android:layout_weight="1.8"
             android:gravity="center"
-            android:layout_weight="1"
             android:text="@string/device_types" />
+
     </LinearLayout>
 
     <ListView
@@ -56,9 +55,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_marginTop="15dp"
-        android:layout_weight="1"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp" />
+        android:layout_weight="1" />
 
     <include
         android:id="@+id/likeActonbar"
