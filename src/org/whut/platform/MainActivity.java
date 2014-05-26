@@ -1,6 +1,9 @@
 package org.whut.platform;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.whut.client.CasClient;
 import org.whut.strings.ToastStrings;
@@ -9,16 +12,23 @@ import org.whut.strings.UrlStrings;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.Preference;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -28,7 +38,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-	private EditText edt_uname;
+	private AutoCompleteTextView edt_uname;
 	private EditText edt_pwd;
 	private CheckBox cb_show_pwd;
 	//private EditText edt_check_code;
@@ -40,6 +50,8 @@ public class MainActivity extends Activity {
 	private String password;
 	private MyHandler handler;
 	private ProgressDialog dialog;
+	protected SharedPreferences preferences;
+	protected Editor editor;
 
 	public void setActivityChanged(){
 		dialog.dismiss();
@@ -47,11 +59,19 @@ public class MainActivity extends Activity {
 		finish();
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_main);
-		edt_uname = (EditText) findViewById(R.id.edt_uname);
+		preferences = getSharedPreferences("usenamedata",Context.MODE_PRIVATE);
+		edt_uname = (AutoCompleteTextView) findViewById(R.id.aedt_uname);
+		if (!(null==preferences.getStringSet("username", null))) {
+			HashSet<String> temp=(HashSet<String>)preferences.getStringSet("username", null);
+			String[] str=(String[])temp.toArray(new String[temp.size()]);
+			edt_uname.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line,str));
+		}
+		
 		edt_pwd = (EditText) findViewById(R.id.edt_pwd);		
 		//		edt_check_code = (EditText) findViewById(R.id.edt_check_code);
 		cb_show_pwd = (CheckBox) findViewById(R.id.cb_show_pwd);
@@ -71,14 +91,10 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-				// TODO Auto-generated method stub
-
 			}
 
 		});
@@ -99,10 +115,34 @@ public class MainActivity extends Activity {
 			}
 
 		});
+		
+		edt_uname.setOnItemClickListener(new OnItemClickListener() {
 
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				edt_pwd.setText((String)preferences.getString((String)parent.getItemAtPosition(position), null));
+
+			}
+		});
+//		edt_uname.setOnItemSelectedListener(new OnItemSelectedListener() {
+//
+//			@Override
+//			public void onItemSelected(AdapterView<?> parent, View view,
+//					int position, long id) {
+//				edt_pwd.setText((String)preferences.getString((String)parent.getItemAtPosition(position), null));
+//			}
+//
+//			@Override
+//			public void onNothingSelected(AdapterView<?> parent) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//		});
 
 		btn_login.setOnTouchListener(new View.OnTouchListener() {
 
+			@SuppressLint("NewApi")
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
@@ -113,6 +153,28 @@ public class MainActivity extends Activity {
 				else if(event.getAction() == MotionEvent.ACTION_UP){     
 					//改为抬起时的图片     
 					((Button)v).setBackgroundResource(R.drawable.loginbtn_bg_normal_color);     
+					//储存用户名代码
+					editor = preferences.edit();
+					if (null==preferences.getStringSet("username", null)) {
+						HashSet<String> tempSet=new HashSet<String>();
+						tempSet.add(edt_uname.getText().toString());
+						editor.putStringSet("username", tempSet);
+						editor.commit();
+					}
+					else {
+						if (!preferences.getStringSet("username", null).contains(edt_uname.getText().toString())) {
+							HashSet<String> tempSet=(HashSet<String>) preferences.getStringSet("username", null);
+							tempSet.add(edt_uname.getText().toString());
+							editor.putStringSet("username", tempSet);
+							editor.commit();
+						}
+					}
+					//记住密码功能代码
+					if (((CheckBox)findViewById(R.id.cb_rem_pwd)).isChecked()) {
+						editor.putString(edt_uname.getText().toString(), edt_pwd.getText().toString());
+						editor.commit();
+					}
+					//线程登录代码
 					new Thread(new LoginThread()).start();
 					dialog.show();
 				}

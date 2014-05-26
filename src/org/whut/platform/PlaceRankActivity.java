@@ -46,7 +46,7 @@ public class PlaceRankActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_placerank);
-		listView=(ListView)findViewById(R.id.list_rank);
+		listView=(ListView)findViewById(R.id.list_serach_rank);
 		textView=(TextView)findViewById(R.id.tv_place);
 		textView.setText(getIntent().getExtras().getString("area")+"风险排名");
 		

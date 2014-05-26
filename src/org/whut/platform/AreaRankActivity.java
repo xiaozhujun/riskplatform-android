@@ -45,7 +45,7 @@ public class AreaRankActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_arearank);
-		listView=(ListView)findViewById(R.id.list_rank);
+		listView=(ListView)findViewById(R.id.list_serach_rank);
 		textView=(TextView)findViewById(R.id.tv_city);
 		
 		final String province=getIntent().getExtras().getString("province");

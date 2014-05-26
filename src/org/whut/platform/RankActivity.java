@@ -48,7 +48,7 @@ public class RankActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_rank);	
-		listView=(ListView)findViewById(R.id.list_rank);
+		listView=(ListView)findViewById(R.id.list_serach_rank);
 		
 
 		
@@ -139,7 +139,7 @@ public class RankActivity extends Activity {
 			List<Map<String, String>> province=(List<Map<String, String>>) msg.obj;
 			SimpleAdapter adapter=new SimpleAdapter(theActivity,  province, R.layout.show_list, new 
 
-					String[]{"id","avgRiskValue","province"}, new int[]{R.id.tv_list_id,R.id.tv_list_riskvalue,R.id.tv_list_name});
+					String[]{"id","avgRiskValue","province"}, new int[]{R.id.tv_list_id,R.id.tv_list_name,R.id.tv_list_riskvalue});
 					theActivity.listView.setAdapter(adapter);
 		}
 		

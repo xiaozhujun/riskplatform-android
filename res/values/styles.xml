@@ -17,5 +17,21 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     	<item name="android:windowNoTitle">true</item>
     </style>
+    
+    
+    <style name="CommonSearchboxHomeText">
+        <item name="android:textSize">16.0dip</item>
+        <item name="android:textColor">#ff999999</item>
+    </style>
+    
+    <style name="BottomBarTextStyle">
+        <item name="android:textSize">14.0dip</item>
+        <item name="android:textColor">#ff333333</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:shadowColor">#ffffffff</item>
+        <item name="android:shadowDx">1.0</item>
+        <item name="android:shadowDy">1.0</item>
+        <item name="android:shadowRadius">1.0</item>
+    </style>
 
 </resources>

@@ -47,7 +47,7 @@ public class CityRankActivity extends Activity {
 		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cityrank);
-		listView=(ListView)findViewById(R.id.list_rank);
+		listView=(ListView)findViewById(R.id.list_serach_rank);
 		textView=(TextView)findViewById(R.id.tv_province);
 		
 		

@@ -57,8 +57,8 @@ public class CasClient
     }
     
     
-    public static CasClient getInstance(){
-    	if(instance==null){
+   public static CasClient getInstance(){
+    	if(instance==null){ 
     		synchronized(CasClient.class){
     			if(instance==null){
     				instance = new CasClient("http://www.cseicms.com/cas/v1/");
@@ -240,7 +240,7 @@ public class CasClient
     }
 
     //发送POST请求
-    public String doPost(String service,HashMap<String,String> params){
+    synchronized public String doPost(String service,HashMap<String,String> params){
         Log.i("cas client doPost url:", service);
         HttpPost httpPost = new HttpPost (service);
         try
@@ -273,6 +273,37 @@ public class CasClient
 
         return null;
     }
+    
+  //发送POST没有带参数的请求
+   synchronized public String doPostNoParams(String service){
+        Log.i("cas client doPost url:", service);
+        HttpPost httpPost = new HttpPost (service);
+        try
+        {
+            
+//            httpPost.setEntity(new UrlEncodedFormEntity(null,HTTP.UTF_8));
+            HttpResponse response = httpClient.execute(httpPost);
+            String responseBody = getResponseBody(response);
+            switch (response.getStatusLine().getStatusCode())
+            {
+                case 200:
+                {
+                    Log.i("cas client doPost response:", responseBody);
+                    return responseBody;
+                }
+                default:
+                    break;
+            }
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 
 
 
