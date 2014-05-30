@@ -11,28 +11,25 @@ import org.whut.strings.UrlStrings;
 import org.whut.utils.JsonUtils;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class AreaRankActivity extends Activity {
 
 	private ListView listView;
 	private MyHandler myHandler;
-	private TextView textView;
-	private ImageButton ibtn_home;
-	private ImageButton ibtn_list;
-	private ImageButton ibtn_risk;
+	private ProgressDialog dialog;
+
 	
 	@Override
 	public void onBackPressed() {
@@ -46,84 +43,36 @@ public class AreaRankActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_arearank);
 		listView=(ListView)findViewById(R.id.list_serach_rank);
-		textView=(TextView)findViewById(R.id.tv_city);
-		
-		final String province=getIntent().getExtras().getString("province");
-		final String city=getIntent().getExtras().getString("city");
-		textView.setText(city+"风险排名");
-		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
+		dialog = new ProgressDialog(this);
+		dialog.setTitle("提示");
+		dialog.setMessage("正在获取数据，请稍后...");
+		dialog.setCancelable(true);
+		dialog.setIndeterminate(false);
+		dialog.show();
+		
+		findViewById(R.id.iv_topbar_left_back).setOnClickListener(new View.OnClickListener() {
+			
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				ListView list=(ListView)parent;
-				@SuppressWarnings("unchecked")
-				HashMap<String, String> map=(HashMap<String, String>) list.getItemAtPosition(position);
-				 String area=map.get("area");
-				 Intent intent=new Intent(AreaRankActivity.this,PlaceRankActivity.class);
-				 intent.putExtra("province", province);
-				 intent.putExtra("city", city);
-				 intent.putExtra("area", area);
-				 startActivity(intent);
-				
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				AreaRankActivity.this.finish();
 			}
 		});
 		
-		ibtn_list=(ImageButton)findViewById(R.id.ibtn_list);
-		ibtn_list.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){     
-					//更改为按下时的背景图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_list_down);
-				}
-				else if(event.getAction() == MotionEvent.ACTION_UP){     
-					//改为抬起时的图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_list);     
-					
-				}
-				return true;
-			}
-		});
-
-		ibtn_home=(ImageButton)findViewById(R.id.ibtn_home);
-		ibtn_home.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){     
-					//更改为按下时的背景图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_map_down);					
-				}else if(event.getAction() == MotionEvent.ACTION_UP){     
-					//改为抬起时的图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_map); 
-					startActivity(new Intent(AreaRankActivity.this,MapActivity.class));
-					finish();
-				}
-				return true;
-			}
-		});
-
-
-		ibtn_risk=(ImageButton)findViewById(R.id.ibtn_risk);
-		ibtn_risk.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){     
-					//更改为按下时的背景图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_risk_down);
-				}else if(event.getAction() == MotionEvent.ACTION_UP){     
-					//改为抬起时的图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_risk);     
-				}
-				return true;
-			}
-		});
-		MyApplication.getInstance().addActivity(this);
 		
-		new Thread(new areaThread()).start();
+		TextView textView_title = (TextView) findViewById(org.whut.platform.R.id.tv_topbar_middle_detail);
+		textView_title.setText("区域排行");
+
+		RelativeLayout rl = (RelativeLayout) findViewById(org.whut.platform.R.id.tv_topbar_right_map_layout);
+		rl.setVisibility(View.INVISIBLE);
+		rl.setFocusable(false);
+		
 		myHandler=new MyHandler(this);
+		MyApplication.getInstance().addActivity(this);	
+		new Thread(new areaThread()).start();
+
+		
 	}
 	
 	static class MyHandler extends Handler{
@@ -134,11 +83,39 @@ public class AreaRankActivity extends Activity {
 		}
 		@Override
 		public void handleMessage(Message msg) {
-			AreaRankActivity theActivity=myActivity.get();
+			final AreaRankActivity theActivity=myActivity.get();
 			@SuppressWarnings("unchecked")
 			List<Map<String, String>> area=(List<Map<String, String>>) msg.obj;
-			SimpleAdapter adapter=new SimpleAdapter(theActivity, area, R.layout.show_list, new String[]{"id","area","avgRiskValue"}, new int[]{R.id.tv_list_id,R.id.tv_list_name,R.id.tv_list_riskvalue});
+			SimpleAdapter adapter=new SimpleAdapter(theActivity, area, R.layout.rank_view_area, new String[]{"area_rank","craneNumber","avgRiskValue"}, new int[]{R.id.layout_title,R.id.riskValue,R.id.use_point}){
+				
+				
+				@Override
+				public View getView(final int position, View convertView,
+						final ViewGroup parent) {
+					// TODO Auto-generated method stub
+					convertView =  super.getView(position, convertView, parent);
+					RelativeLayout button_detail = (RelativeLayout) convertView.findViewById(R.id.button_route_layout);
+					button_detail.setOnClickListener(new OnClickListener() {						
+						@Override
+						public void onClick(View v) {		
+							ListView listView = (ListView)parent;
+							@SuppressWarnings("unchecked")
+							HashMap<String, String> map = (HashMap<String, String>) listView.getItemAtPosition(position);
+							String area = map.get("area");
+						    Intent it = new Intent(theActivity,PlaceRankActivity.class);
+						    it.putExtra("province", theActivity.getIntent().getExtras().getString("province"));
+						    it.putExtra("city", theActivity.getIntent().getExtras().getString("city"));
+						    it.putExtra("area", area);
+						    theActivity.startActivity(it);
+						}
+					});
+					
+					return convertView;		
+				}
+				
+			};
 			theActivity.listView.setAdapter(adapter);
+			theActivity.dialog.dismiss();
 		}
 		
 	}

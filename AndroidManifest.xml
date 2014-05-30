@@ -45,14 +45,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="org.whut.platform.RankActivity" android:screenOrientation="portrait">
+        <activity android:name="org.whut.platform.ProvinceRankActivity" android:screenOrientation="portrait">
         </activity>
         <activity android:name="org.whut.platform.ShowListActivity" android:screenOrientation="portrait"/>
         <activity android:name="org.whut.platform.MapActivity" android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="FswKAd6xGOnH2Rb4bqdRfTqt" />
+            android:value="pf9fKK4jI7cdZnVwtUq4gwjZ" />
 
          <service
             android:name="com.baidu.location.f"

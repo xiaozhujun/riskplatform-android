@@ -1,7 +1,6 @@
 package org.whut.utils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JsonUtils {
@@ -111,35 +109,37 @@ public class JsonUtils {
 			Map<String,String> map = new HashMap<String,String>();
 			JSONObject jsonItem = jsonArray.getJSONObject(i);				
 			map.put("unitAddress", jsonItem.getString("unitAddress"));
-			map.put("equipmentVariety",jsonItem.getString("equipmentVariety"));
-			map.put("riskValue", jsonItem.getString("riskValue"));
-			map.put("userPoint",jsonItem.getString("userPoint"));
+			map.put("equipmentVariety",(i+1)+"、"+jsonItem.getString("equipmentVariety"));
+			map.put("riskValue", "风险值："+jsonItem.getString("riskValue"));
+			map.put("userPoint","使用地点："+jsonItem.getString("userPoint"));
 			data.add(map);			
+		}
+		//测试数据
+		for(int j=0;j<7;j++){
+			Map<String,String> map = new HashMap<String,String>();
+			map.put("unitAddress", "测试数据一");
+			map.put("equipmentVariety",(j+2)+"、门式起重机");
+			map.put("riskValue", "风险值：6");
+			map.put("userPoint","使用地点：厂房");
+			data.add(map);
 		}
 		return data;
 	}
 
 	public static List<Map<String,String>> getProvinceRisk(String message) throws Exception{
-		int j=1;
 		List<Map<String,String>> data=new ArrayList<Map<String,String>>();
 		JSONObject jsonObject = new JSONObject(message);
 		JSONArray jsonArray = jsonObject.getJSONArray("data");
-		int[] temp=new int[jsonArray.length()];
 		for(int i=0;i<jsonArray.length();i++){
-			Map<String,String> map = new HashMap<String, String>(); 
-			JSONObject jsonItem =jsonArray.getJSONObject(i);
-			int avgRiskValue=jsonItem.getInt("avgRiskValue");
-			String province=jsonItem.getString("province");
-			temp[i]=avgRiskValue;
-			if (i>0) {
-				if (!(temp[i]==temp[i-1])) {
-					j++;
-				}
-				}
-			
-			map.put("id", j+"");
-			map.put("avgRiskValue",avgRiskValue+"");
-			map.put("province",province);
+			Map<String,String> map = new HashMap<String,String>();
+			JSONObject jsonItem = jsonArray.getJSONObject(i);
+			String province = jsonItem.getString("province");
+			double avgRiskValue = jsonItem.getDouble("avgRiskValue"); 
+			Integer craneNumber = jsonItem.getInt("craneNumber");
+			map.put("province", province);
+			map.put("province_rank", "第 "+(i+1)+" 名："+province);
+			map.put("avgRiskValue", "平均风险值："+avgRiskValue);
+			map.put("craneNumber", "设备数量："+craneNumber);
 			data.add(map);
 		}
 		return data;		
@@ -149,26 +149,19 @@ public class JsonUtils {
 	
 
 	public static List<Map<String,String>> getCityRisk(String message) throws Exception{
-		int j=1;
 		List<Map<String,String>> data=new ArrayList<Map<String,String>>();
 		JSONObject jsonObject = new JSONObject(message);
 		JSONArray jsonArray = jsonObject.getJSONArray("data");
-		int[] temp=new int[jsonArray.length()];
 		for(int i=0;i<jsonArray.length();i++){
-			Map<String,String> map = new HashMap<String, String>(); 
-			JSONObject jsonItem =jsonArray.getJSONObject(i);
-			int avgRiskValue=jsonItem.getInt("avgRiskValue");
-			String city=jsonItem.getString("city");
-			temp[i]=avgRiskValue;
-			if (i>0) {
-				if (!(temp[i]==temp[i-1])) {
-					j++;
-				}
-			}
-			
-			map.put("id", j+"");
-			map.put("avgRiskValue",avgRiskValue+"");
-			map.put("city",city);
+			Map<String,String> map = new HashMap<String,String>();
+			JSONObject jsonItem = jsonArray.getJSONObject(i);
+			String city = jsonItem.getString("city");
+			double avgRiskValue = jsonItem.getDouble("avgRiskValue"); 
+			Integer craneNumber = jsonItem.getInt("craneNumber");
+			map.put("city", city);
+			map.put("city_rank", "第 "+(i+1)+" 名："+city);
+			map.put("avgRiskValue", "平均风险值："+avgRiskValue);
+			map.put("craneNumber", "设备数量："+craneNumber);
 			data.add(map);
 		}
 		return data;		
@@ -177,26 +170,20 @@ public class JsonUtils {
 	
 
 	public static List<Map<String,String>> getAreaRisk(String message) throws Exception{
-		int j=1;
+		
 		List<Map<String,String>> data=new ArrayList<Map<String,String>>();
 		JSONObject jsonObject = new JSONObject(message);
 		JSONArray jsonArray = jsonObject.getJSONArray("data");
-		int[] temp=new int[jsonArray.length()];
 		for(int i=0;i<jsonArray.length();i++){
-			Map<String,String> map = new HashMap<String, String>(); 
-			JSONObject jsonItem =jsonArray.getJSONObject(i);
-			String area=jsonItem.getString("area");
-			int avgRiskValue=jsonItem.getInt("avgRiskValue");
-			temp[i]=avgRiskValue;
-			if (i>0) {
-				if (!(temp[i]==temp[i-1])) {
-					j++;
-				}
-			}
-			
-			map.put("id", j+"");
-			map.put("avgRiskValue",avgRiskValue+"");
-			map.put("area",area);
+			Map<String,String> map = new HashMap<String,String>();
+			JSONObject jsonItem = jsonArray.getJSONObject(i);
+			String area = jsonItem.getString("area");
+			double avgRiskValue = jsonItem.getDouble("avgRiskValue"); 
+			Integer craneNumber = jsonItem.getInt("craneNumber");
+			map.put("area", area);
+			map.put("area_rank", "第 "+(i+1)+" 名："+area);
+			map.put("avgRiskValue", "平均风险值："+avgRiskValue);
+			map.put("craneNumber", "设备数量："+craneNumber);
 			data.add(map);
 		}
 		return data;		
@@ -220,8 +207,8 @@ public class JsonUtils {
 				j++;
 			}
 			}
-			map.put("id", j+"");
-			map.put("riskValue",avgRiskValue+"");
+			map.put("id", "风险排名 : 第 "+j+" 名");
+			map.put("riskValue","风险值:"+avgRiskValue);
 			map.put("company_name",jsonItem.getString("unitAddress"));
 			data.add(map);
 		}
@@ -235,7 +222,7 @@ public class JsonUtils {
 		JSONArray jsonArray = jsonObject.getJSONArray("data");
 		for(int i=0;i<jsonArray.length();i++){
 			JSONObject jsonItem = jsonArray.getJSONObject(i);
-			String result = jsonItem.getString("lng")+","+jsonItem.getString("lat")+","+(jsonItem.getInt("riskValue")+"");
+			String result = jsonItem.getString("lng")+","+jsonItem.getString("lat")+","+(jsonItem.getInt("riskValue")+","+jsonItem.getString("craneNumber")+","+jsonItem.getString("safeManager"));
 			list.add(result);
 		}				
 		return list;	
@@ -379,6 +366,15 @@ public class JsonUtils {
 			});
 			return data;		
 		}
+
+		public static List<String> getRiskValues(String message) throws Exception{
+			// TODO Auto-generated method stub
+			return null;
+		}
 	
+		public static List<String> getSafeManagers(String message) throws Exception{
+			// TODO Auto-generated method stub
+			return null;
+		}
 	
 }

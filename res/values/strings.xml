@@ -47,8 +47,6 @@
     <string name="userPoint">使用地点：</string>
     <string name="rank">中国风险排名</string>
     <string name="rank_num">排名</string>
-    <string name="serach_rank_num">风险排名</string>
-    <string name="serach_device_num">设备数</string>
     <string name="rankvalue">风险值</string>
     <string name="rankprovince">省</string>
     <string name="rankcity">市</string>
@@ -64,7 +62,7 @@
     <string name="manufacture_Date">生产日期</string>
     <string name="Specification">规格</string>
     <string name="RatedLiftWeight">额定起重量</string>
-<string-array name="riskvalueSpinnerData">
+    <string-array name="riskvalueSpinnerData">
         <item>风险区间</item>
         <item>1-9</item>
 		<item>2-9</item>
@@ -86,4 +84,30 @@
 		<item>30-35</item>
 		<item>35-40</item>
    </string-array>
+   <string-array name="defaultProvinceSpinnerData">
+       <item >请选择省份</item>
+   </string-array>
+   
+   <string-array name="defaultCitiesSpinnerData">
+       <item >请选择城市</item>
+   </string-array>
+   
+   <string-array name="defaultAreasSpinnerData">
+       <item >请选择地区</item>
+   </string-array>
+   
+   <string-array name="defaultDevicesSpinnerData">
+       <item >设备类型</item>
+   </string-array>
+   
+    <string name="common_topbar_right_text_map">地图</string>
+    <string name="common_topbar_middle_text_detail">详 情</string>
+    <string name="details">查看详情</string>
+    <string name="area_rank">市内区域排行</string>
+    <string name="city_rank">省内城市排行</string>
+    <string name="poi_tel_btn">收藏</string>
+    <string name="serach_rank_num">风险排名</string>
+    <string name="serach_device_num">设备数量</string>
+    <string name="show_list">列表</string>
+	<string name="common_searchbox_search_hint_text">搜索</string>
 </resources>

@@ -3,6 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    
+    <include 
+        layout="@layout/common_topbar_equip"
+        />
 
     <ScrollView
         android:id="@+id/scrollView1"
@@ -13,28 +17,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical" >
-
-            <FrameLayout
-                android:id="@+id/FrameLayout1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/whitesmoke" >
-
-                <ImageButton
-                    android:id="@+id/ibtn_back"
-                    android:layout_width="48dp"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/ic_ab_back_holo_light_am" />
-
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:gravity="center"
-                    android:text="条件筛选"
-                    android:textSize="20sp" />
-
-            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,7 +60,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
-
             </LinearLayout>
 
             <Button
@@ -88,7 +69,7 @@
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:layout_marginTop="100dp"
-                android:text="Button" />
+                android:text="搜索" />
         </LinearLayout>
     </ScrollView>
 

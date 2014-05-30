@@ -11,29 +11,26 @@ import org.whut.strings.UrlStrings;
 import org.whut.utils.JsonUtils;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CityRankActivity extends Activity {
 
 	private ListView listView;
 	private MyHandler myHandler;
-	private TextView textView;
-	private ImageButton ibtn_home;
-	private ImageButton ibtn_list;
-	private ImageButton ibtn_risk;
+	private ProgressDialog dialog;
 	
 	@Override
 	public void onBackPressed() {
@@ -48,11 +45,10 @@ public class CityRankActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_cityrank);
 		listView=(ListView)findViewById(R.id.list_serach_rank);
-		textView=(TextView)findViewById(R.id.tv_province);
 		
 		
 		final String province=getIntent().getExtras().getString("province");
-		textView.setText(province+"省风险排名");
+		
 		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
 
 			@Override
@@ -65,68 +61,38 @@ public class CityRankActivity extends Activity {
 				 Intent intent=new Intent(CityRankActivity.this,AreaRankActivity.class);
 				 intent.putExtra("province", province);
 				 intent.putExtra("city", city);
-				 startActivity(intent);
-				
+				 startActivity(intent);		
 			}
 		});
 		
 		
-		ibtn_list=(ImageButton)findViewById(R.id.ibtn_list);
-		ibtn_list.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){     
-					//更改为按下时的背景图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_list_down);
-				}
-				else if(event.getAction() == MotionEvent.ACTION_UP){     
-					//改为抬起时的图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_list);     
-					
-				}
-				return true;
-			}
-		});
-
-		ibtn_home=(ImageButton)findViewById(R.id.ibtn_home);
-		ibtn_home.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){     
-					//更改为按下时的背景图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_map_down);					
-				}else if(event.getAction() == MotionEvent.ACTION_UP){     
-					//改为抬起时的图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_map); 
-					startActivity(new Intent(CityRankActivity.this,MapActivity.class));
-					finish();
-				}
-				return true;
-			}
-		});
-
-
-		ibtn_risk=(ImageButton)findViewById(R.id.ibtn_risk);
-		ibtn_risk.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){     
-					//更改为按下时的背景图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_risk_down);
-				}else if(event.getAction() == MotionEvent.ACTION_UP){     
-					//改为抬起时的图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_risk);     
-				}
-				return true;
-			}
-		});
-		
+		myHandler=new MyHandler(this);
 		MyApplication.getInstance().addActivity(this);
+		dialog = new ProgressDialog(this);
+		dialog.setTitle("提示");
+		dialog.setMessage("正在获取数据，请稍后...");
+		dialog.setCancelable(true);
+		dialog.setIndeterminate(false);
+		dialog.show();
+		
+		findViewById(R.id.iv_topbar_left_back).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				CityRankActivity.this.finish();
+			}
+		});
+		
+		TextView textView_title = (TextView) findViewById(org.whut.platform.R.id.tv_topbar_middle_detail);
+		textView_title.setText("城市排行");
+
+		RelativeLayout rl = (RelativeLayout) findViewById(org.whut.platform.R.id.tv_topbar_right_map_layout);
+		rl.setVisibility(View.INVISIBLE);
+		rl.setFocusable(false);
 		
 		new Thread(new cityThread()).start();
-		myHandler=new MyHandler(this);
+		
 	}
 	
 	static class MyHandler extends Handler{
@@ -137,11 +103,37 @@ public class CityRankActivity extends Activity {
 		}
 		@Override
 		public void handleMessage(Message msg) {
-			CityRankActivity theActivity=myActivity.get();
+			final CityRankActivity theActivity=myActivity.get();
 			@SuppressWarnings("unchecked")
 			List<Map<String, String>> city=(List<Map<String, String>>) msg.obj;
-			SimpleAdapter adapter=new SimpleAdapter(theActivity, city , R.layout.show_list, new String[]{"id","city","avgRiskValue"}, new int[]{R.id.tv_list_id,R.id.tv_list_name,R.id.tv_list_riskvalue});
+			SimpleAdapter adapter=new SimpleAdapter(theActivity, city , R.layout.rank_view_city, new String[]{"city_rank","craneNumber","avgRiskValue"}, new int[]{R.id.layout_title,R.id.riskValue,R.id.use_point}){
+
+				@Override
+				public View getView(final int position, View convertView,
+						final ViewGroup parent) {
+					// TODO Auto-generated method stub
+					convertView =  super.getView(position, convertView, parent);
+					RelativeLayout button_detail = (RelativeLayout) convertView.findViewById(R.id.button_route_layout);
+					button_detail.setOnClickListener(new OnClickListener() {						
+						@Override
+						public void onClick(View v) {		
+							ListView listView = (ListView)parent;
+							@SuppressWarnings("unchecked")
+							HashMap<String, String> map = (HashMap<String, String>) listView.getItemAtPosition(position);
+							String city = map.get("city");
+						    Intent it = new Intent(theActivity,AreaRankActivity.class);
+						    it.putExtra("province", theActivity.getIntent().getExtras().getString("province"));
+						    it.putExtra("city", city);
+						    theActivity.startActivity(it);
+						}
+					});
+					
+					return convertView;		
+				}
+				
+			};
 			theActivity.listView.setAdapter(adapter);
+			theActivity.dialog.dismiss();
 		}
 		
 	}

@@ -1,10 +1,7 @@
 package org.whut.platform;
 
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
-
 import org.whut.client.CasClient;
 import org.whut.strings.ToastStrings;
 import org.whut.strings.UrlStrings;
@@ -12,7 +9,6 @@ import org.whut.strings.UrlStrings;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.Preference;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -41,7 +37,6 @@ public class MainActivity extends Activity {
 	private AutoCompleteTextView edt_uname;
 	private EditText edt_pwd;
 	private CheckBox cb_show_pwd;
-	//private EditText edt_check_code;
 	private Spinner sp_types;
 	private Button btn_login;
 	private ArrayAdapter<String> adapter;
@@ -148,11 +143,11 @@ public class MainActivity extends Activity {
 				// TODO Auto-generated method stub
 				if(event.getAction() == MotionEvent.ACTION_DOWN){     
 					//更改为按下时的背景图片     
-					((Button)v).setBackgroundResource(R.drawable.loginbtn_bg_press_color);
+					((Button)v).setBackgroundResource(R.drawable.button_my_login_down);
 				}
 				else if(event.getAction() == MotionEvent.ACTION_UP){     
 					//改为抬起时的图片     
-					((Button)v).setBackgroundResource(R.drawable.loginbtn_bg_normal_color);     
+					((Button)v).setBackgroundResource(R.drawable.button_my_login);     
 					//储存用户名代码
 					editor = preferences.edit();
 					if (null==preferences.getStringSet("username", null)) {

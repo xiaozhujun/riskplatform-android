@@ -11,12 +11,12 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dip"
         android:layout_weight="10" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <org.whut.utils.BottomTextView
@@ -429,11 +429,6 @@
 
     </ScrollView>
 
-    <include
-        android:id="@+id/likeActonbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        layout="@layout/layout_likeactionbar" />
+
 
 </LinearLayout>

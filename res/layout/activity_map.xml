@@ -23,37 +23,43 @@
         <include
             android:id="@+id/searchbar"
             layout="@layout/common_searchbox_home" />
-
-        <LinearLayout
-            android:id="@+id/sp_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/button_on"
-            android:visibility="gone" >
-
-            <Spinner
-                android:id="@+id/spinner1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:id="@+id/spinner2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:id="@+id/spinner3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </LinearLayout>
     </LinearLayout>
 
+    <ImageButton
+        android:id="@+id/map_clear"
+        android:layout_width="40.0dip"
+        android:layout_height="40.0dip"
+		android:layout_gravity="right|top"
+        android:layout_marginTop="65dip"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/main_button"
+        android:src="@drawable/map_delete" />
+    
+        <ViewSwitcher
+        android:id="@+id/location"
+        android:layout_gravity="bottom|left"
+        android:layout_width="44.0dip"
+        android:layout_height="44.0dip"
+        android:layout_marginBottom="60dip"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/main_locatebutton"
+        android:clickable="true" >
+
+        <ImageView
+            android:id="@+id/location_icon"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:scaleType="center"
+            android:src="@drawable/main_icon_location" />
+
+        <ProgressBar
+            android:id="@+id/location_progress"
+            style="@style/LocationProgressStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </ViewSwitcher>
 
     <LinearLayout
         android:layout_width="40.0dip"
@@ -125,8 +131,8 @@
                         style="@style/BottomBarTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:drawableLeft="@drawable/main_icon_nearby"
-                        android:text="附近" />
+                        android:drawableLeft="@drawable/main_icon_route"
+                        android:text="分布" />
                 </FrameLayout>
             </RelativeLayout>
 
@@ -155,13 +161,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/main_icon_route" />
+                        android:src="@drawable/main_icon_nav" />
 
                     <TextView
                         style="@style/BottomBarTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:text="区域" />
+                        android:text="排名" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -190,13 +196,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/main_icon_nav" />
+                        android:src="@drawable/main_icon_mine" />
 
                     <TextView
                         style="@style/BottomBarTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:text="排名" />
+                        android:text="收藏" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -236,11 +242,19 @@
                         style="@style/BottomBarTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="fill_parent"
-                        android:drawableLeft="@drawable/main_icon_mine"
+                        android:drawableLeft="@drawable/mylocation_detail"
                         android:text="更多" />
                 </FrameLayout>
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
+    
+    <ViewStub
+        android:id="@+id/view_stub"
+        android:inflatedId="@+id/view_gone"
+        android:layout="@layout/openmapdetail_map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
 
 </FrameLayout>

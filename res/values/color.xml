@@ -148,4 +148,10 @@
 <color name="black">#000000</color><!--黑色 -->
 
 <color name="voice_pressed_bkg">#ffcccccc</color>
+<color name="common_text_btn_pressed">#ffd9d9d9</color>
+<color name="title">#ff333333</color>
+<color name="listitem_text">#ff999999</color>
+<color name="des">#ff666666</color>
+<color name="common_text_color_hint">#ff999999</color>
+<color name="defaultBtnTextColor">#ff333333</color>
 </resources>

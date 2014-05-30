@@ -15,15 +15,8 @@ import org.whut.utils.JsonUtils;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 
 public class InfoActivity extends Activity {
 
@@ -31,10 +24,7 @@ public class InfoActivity extends Activity {
 	private TextView  unitAddress,addressId, organizeCode,userPoint,
 	safeManager,contactPhone,equipmentVariety,unitNumber,manufactureUnit,manufactureDate,specification,
 	workLevel,riskValue,ratedLiftWeight;
-//	private String data;
-	private ImageButton ibtn_home;
-	private ImageButton ibtn_list;
-	private ImageButton ibtn_risk;
+
 	
 	
 	
@@ -67,58 +57,6 @@ public class InfoActivity extends Activity {
 		ratedLiftWeight=(TextView)findViewById(R.id.ratedLiftWeight);
 		
 		new Thread(new getInfoThread()).start();
-	
-		
-		ibtn_list=(ImageButton)findViewById(R.id.ibtn_list);
-		ibtn_list.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){     
-					//更改为按下时的背景图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_list_down);
-				}
-				else if(event.getAction() == MotionEvent.ACTION_UP){     
-					//改为抬起时的图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_list);     
-				}
-				return true;
-			}
-		});
-
-		ibtn_home=(ImageButton)findViewById(R.id.ibtn_home);
-		ibtn_home.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){     
-					//更改为按下时的背景图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_map_down);					
-				}else if(event.getAction() == MotionEvent.ACTION_UP){     
-					//改为抬起时的图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_map);     
-					startActivity(new Intent(InfoActivity.this,MapActivity.class));
-					finish();
-				}
-				return true;
-			}
-		});
-
-
-		ibtn_risk=(ImageButton)findViewById(R.id.ibtn_risk);
-		ibtn_risk.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){     
-					//更改为按下时的背景图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_risk_down);
-				}else if(event.getAction() == MotionEvent.ACTION_UP){     
-					//改为抬起时的图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_risk);     
-				}
-				return true;
-			}
-		});
 
 		MyApplication.getInstance().addActivity(this);
 		

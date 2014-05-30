@@ -10,29 +10,25 @@ import org.whut.client.CasClient;
 import org.whut.strings.UrlStrings;
 import org.whut.utils.JsonUtils;
 import android.app.Activity;
-import android.content.Context;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class PlaceRankActivity extends Activity {
 
 	private ListView listView;
 	private MyHandler myHandler;
 	private TextView textView;
-	private ImageButton ibtn_home;
-	private ImageButton ibtn_list;
-	private ImageButton ibtn_risk;
+	private ProgressDialog dialog;
 	
 	@Override
 	public void onBackPressed() {
@@ -47,83 +43,46 @@ public class PlaceRankActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_placerank);
 		listView=(ListView)findViewById(R.id.list_serach_rank);
-		textView=(TextView)findViewById(R.id.tv_place);
+		textView=(TextView)findViewById(org.whut.platform.R.id.tv_topbar_middle_detail);
 		textView.setText(getIntent().getExtras().getString("area")+"风险排名");
 		
-		
-		
-		listView.setOnItemClickListener(new ListView.OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				ListView listView = (ListView)parent;  
-			    @SuppressWarnings("unchecked")
-			    HashMap<String, String> map = (HashMap<String, String>) listView.getItemAtPosition(position);  
-			    String unitAddress = map.get("company_name");
-			    Intent it = new Intent(PlaceRankActivity.this,EquipInfoActivity.class);
-			    it.putExtra("unitAddress", unitAddress);
-			    startActivity(it);
-				
-			}
-		});
-		
-		
-		ibtn_list=(ImageButton)findViewById(R.id.ibtn_list);
-		ibtn_list.setOnTouchListener(new OnTouchListener() {
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){     
-					//更改为按下时的背景图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_list_down);
-				}
-				else if(event.getAction() == MotionEvent.ACTION_UP){     
-					//改为抬起时的图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_list);     
-				}
-				return true;
-			}
-		});
-
-		ibtn_home=(ImageButton)findViewById(R.id.ibtn_home);
-		ibtn_home.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){     
-					//更改为按下时的背景图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_map_down);					
-				}else if(event.getAction() == MotionEvent.ACTION_UP){     
-					//改为抬起时的图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_map); 
-					startActivity(new Intent(PlaceRankActivity.this,MapActivity.class));
-					finish();
-				}
-				return true;
-			}
-		});
-
-
-		ibtn_risk=(ImageButton)findViewById(R.id.ibtn_risk);
-		ibtn_risk.setOnTouchListener(new OnTouchListener() {
-
-			@Override
-			public boolean onTouch(View v, MotionEvent event) {
-				if(event.getAction() == MotionEvent.ACTION_DOWN){     
-					//更改为按下时的背景图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_risk_down);
-				}else if(event.getAction() == MotionEvent.ACTION_UP){     
-					//改为抬起时的图片     
-					((ImageButton)v).setImageResource(R.drawable.actionbar_risk);     
-				}
-				return true;
-			}
-		});
-
+		myHandler=new MyHandler(this);
 		MyApplication.getInstance().addActivity(this);
 		
+		dialog = new ProgressDialog(this);
+		dialog.setTitle("提示");
+		dialog.setMessage("正在获取数据，请稍后...");
+		dialog.setCancelable(true);
+		dialog.setIndeterminate(false);
+		dialog.show();
+		
+		findViewById(R.id.iv_topbar_left_back).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				PlaceRankActivity.this.finish();
+			}
+		});
+
+		TextView tv = (TextView) findViewById(R.id.tv_topbar_right_map);
+				
+			tv.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent it = new Intent(PlaceRankActivity.this,MapActivity.class);
+				it.putExtra("province",getIntent().getExtras().getString("province"));
+				it.putExtra("city",getIntent().getExtras().getString("city"));
+				it.putExtra("area",getIntent().getExtras().getString("area"));
+				startActivity(it);
+				PlaceRankActivity.this.finish();
+			}
+		});
+		
 		new Thread(new placeThread()).start();
-		myHandler=new MyHandler(this);
+		
 	}
 	
 	static class MyHandler extends Handler{
@@ -136,9 +95,35 @@ public class PlaceRankActivity extends Activity {
 		public void handleMessage(Message msg) {
 			@SuppressWarnings("unchecked")
 			List<Map<String, String>> place=(List<Map<String, String>>) msg.obj;
-			PlaceRankActivity theAcitvity=myActivity.get();
-			SimpleAdapter simpleAdapter = new SimpleAdapter(theAcitvity, place, R.layout.show_list, new String[]{"id","company_name","riskValue"}, new int[]{R.id.tv_list_id,R.id.tv_list_name,R.id.tv_list_riskvalue});
+			final PlaceRankActivity theAcitvity=myActivity.get();
+			SimpleAdapter simpleAdapter = new SimpleAdapter(theAcitvity, place, R.layout.rank_view_area, new String[]{"id","company_name","riskValue"}, new int[]{R.id.layout_title,R.id.riskValue,R.id.use_point}){
+
+				@Override
+				public View getView(final int position, View convertView,
+						final ViewGroup parent) {
+					// TODO Auto-generated method stub
+					convertView = super.getView(position, convertView, parent);
+					RelativeLayout button_detail = (RelativeLayout) convertView.findViewById(R.id.button_route_layout);
+					button_detail.setOnClickListener(new OnClickListener() {						
+						@Override
+						public void onClick(View v) {		
+							ListView listView = (ListView)parent;
+							@SuppressWarnings("unchecked")
+							HashMap<String, String> map = (HashMap<String, String>) listView.getItemAtPosition(position);
+							String unitAddress = map.get("company_name");
+						    Intent it = new Intent(theAcitvity,EquipInfoActivity.class);
+						    it.putExtra("unitAddress", unitAddress);
+						    theAcitvity.startActivity(it);
+						}
+					});
+					
+					return convertView;
+				
+				}
+				
+			};
 			theAcitvity.listView.setAdapter(simpleAdapter);
+			theAcitvity.dialog.dismiss();
 		}
 		
 	}

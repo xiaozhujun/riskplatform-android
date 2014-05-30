@@ -10,8 +10,8 @@ import org.whut.application.MyApplication;
 import org.whut.client.CasClient;
 import org.whut.strings.ToastStrings;
 import org.whut.strings.UrlStrings;
-import org.whut.utils.BMapUtils;
 import org.whut.utils.JsonUtils;
+
 
 import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.MKGeneralListener;
@@ -23,8 +23,6 @@ import com.baidu.mapapi.map.MapController;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationOverlay;
 import com.baidu.mapapi.map.OverlayItem;
-import com.baidu.mapapi.map.PopupClickListener;
-import com.baidu.mapapi.map.PopupOverlay;
 import com.baidu.mapapi.map.MyLocationOverlay.LocationMode;
 import com.baidu.mapapi.search.MKAddrInfo;
 import com.baidu.mapapi.search.MKBusLineResult;
@@ -42,7 +40,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.util.Log;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,13 +47,14 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.view.ViewStub;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -68,33 +66,13 @@ public class MapActivity extends Activity {
 	private MapView mMapView;
 	private MapController mapController;
 	private TextView et;
-	private LinearLayout sp_layout;
-	private Spinner sp_province;
-	private Spinner sp_city;
-	private Spinner sp_area;
-	private String responseMsg;
-	private static String[] provinces;
-	private static String[] cities;
-	private static String[] areas;
 	private static String[] CompanyPositions;
 	private static String[] unitAddresses;
 	private MyHandler handler;
-	private Intent it;
+	private ViewSwitcher viewSwitcher;
 
 	private ProgressDialog dialog;
-
-
-	private PopupOverlay pop = null;
-
 	private MyOverlay mOverlay = null;
-	private TextView popupText = null;
-	private View popupInfo = null;
-	private View viewCache = null;
-
-	// private static final float ZOOM_LEVEL_ALL = (float) 4.6;
-	private static final int ZOOM_LEVEL_PROVINCE = 8;
-	private static final int ZOOM_LEVEL_CITY = 10;
-	private static final int ZOOM_LEVEL_AREA = 13;
 
 	boolean isRequest = false;
 	boolean isFirstLoc = true;
@@ -107,14 +85,50 @@ public class MapActivity extends Activity {
 	private static String provinceName;
 	private static String cityName;
 	private static String areaName;
+	
+	//记录intent中的省市区名字
+	private String provinceInIntent;
+	private String cityInIntent;
+	private String areaInIntent;
+	
+	
+	private ViewStub viewStub ;
+	private View searchbar;
+	private View popupbottom;
+	
+	private ImageView title_bar_left;
+	private TextView title_bar_middle;
+	private TextView title_bar_right;
+	
+	private LinearLayout button_box;
+	private LinearLayout button_previous;
+	private LinearLayout button_next;
+	private LinearLayout button_phone;
+	
+	
+	private static String unitAddress_tapped;
+	
+	//记录ViewStub是否infalte过
+	private static boolean isInflated = false;
+	//记录是否隐藏View是否正在显示
+	private static boolean view_record = false;
+	//记录点击的标记点,离开此界面时一定要置为0
+	private static int tap_record = 0;
+	//记录按钮标记点的顺序 
+	private static int show_record = 0;
+	//记录定位图层是否存在
+	private static boolean location_record = true;
 
-	private boolean flag = true;//
+	//记录由设备页面传过来的selection
+	private int selectionInIntent = 0;
+
 	private ImageButton zoom_in;
 	private ImageButton zoom_out;
-	private static final int maxZoom = 18;
+	private static final int maxZoom = 19;
 	private static final int minZoom = 3;
 	private static int currentZoom = 0;
 	private static final float ZOOM_LOCATION =  (float) 15;
+	
 	public class MyLocationListenner implements BDLocationListener {
 
 		@Override
@@ -127,6 +141,7 @@ public class MapActivity extends Activity {
 			locationData.direction = location.getDerect();
 			myLocationOverlay.setData(locationData);
 			mMapView.refresh();
+
 			if (isRequest || isFirstLoc) {
 				// 移动地图到定位点
 				Log.d("LocationOverlay", "receive location, animate to it");
@@ -140,25 +155,105 @@ public class MapActivity extends Activity {
 				Log.i("location", Double.toString(locationData.longitude));
 				Log.i("location", Double.toString(locationData.latitude));
 			}
-
 			isFirstLoc = false;
-
 		}
 
 		@Override
 		public void onReceivePoi(BDLocation poiLocation) {
 			if (poiLocation == null) {
 				return;
-
 			}
 
 		}
 	}
+	
+
+	
+	
+	private void setSelectionPopup(int i){
+		if(isInflated){
+			showPopupAfterInflated();
+			initOverlaySelectionData(i);		
+		}else{
+			showPopupBeforInflated();
+			initOverlaySelectionData(i);
+			isInflated = true;
+		}
+	}
+	
+	private void initOverlaySelectionData(int i){
+		show_record=i;
+		
+		((TextView)findViewById(R.id.tv_setctionA)).setText((i+1)+"."+unitAddress_tapped);
+		((TextView)findViewById(R.id.tv_sectionB)).setText("设备数量："+CompanyPositions[i].split(",")[3]);
+		((TextView)findViewById(R.id.tv_sectionC)).setText("负责人："+CompanyPositions[i].split(",")[4]);
+		((TextView)findViewById(R.id.tv_sectionD)).setText("风险值："+CompanyPositions[i].split(",")[2]);
+		
+		tap_record = i;
+		
+		Double lat = Double.parseDouble(CompanyPositions[i].split(
+				",")[0]);
+		Double lng = Double.parseDouble(CompanyPositions[i].split(
+				",")[1]);
+		Log.i("msg", lat+","+lng);
+		GeoPoint point = new GeoPoint((int) (lng * 1E6),
+				(int) (lat * 1E6));		
+		mapController.animateTo(point);
+		mapController.setCenter(point);
+		mMapView.refresh();
+		view_record = true;
+	}
+	
+	private void showPopupAfterInflated(){
+		searchbar.setFocusable(false);
+		searchbar.setVisibility(View.GONE);
+		button_box.setFocusable(false);
+		button_box.setVisibility(View.GONE);
+		popupbottom.setVisibility(View.VISIBLE);
+		popupbottom.setFocusable(true);
+		isInflated = true;
+	}
+	
+	private void showPopupBeforInflated(){
+		searchbar.setFocusable(false);
+		searchbar.setVisibility(View.GONE);
+		button_box.setFocusable(false);
+		button_box.setVisibility(View.GONE);
+		viewStub.inflate();
+		popupbottom = findViewById(viewStub.getInflatedId());
+		
+		isInflated = true;
+	};
+	
+	private void hidePopup(){
+		searchbar.setVisibility(View.VISIBLE);
+		searchbar.setFocusable(true);
+		button_box.setVisibility(View.VISIBLE);
+		button_box.setFocusable(true);
+		popupbottom.setVisibility(View.GONE);
+		view_record = false;
+	}
+	
+	private void getIntentData(Intent it){
+		if(it.getExtras()!=null){
+			provinceInIntent = it.getExtras().getString("province");
+			cityInIntent = it.getExtras().getString("city");
+			areaInIntent = it.getExtras().getString("area");
+			if(it.getExtras().getString("selection")!=null){
+				selectionInIntent = it.getExtras().getInt("selection");
+			}
+			isInflated=false;
+		}
+	}
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		//初始化数据
+		getIntentData(getIntent());
+		
 		mapManager = new BMapManager(getApplication());
 		mapManager.init(new MKGeneralListener() {
 
@@ -166,9 +261,7 @@ public class MapActivity extends Activity {
 			public void onGetPermissionState(int arg0) {
 
 				Toast.makeText(getApplicationContext(),
-						ToastStrings.KEY_FAILED, Toast.LENGTH_SHORT).show
-
-				();
+						ToastStrings.KEY_FAILED, Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
@@ -176,18 +269,25 @@ public class MapActivity extends Activity {
 
 				Toast.makeText(getApplicationContext(),
 
-				ToastStrings.NETWORK_FAILED, Toast.LENGTH_SHORT).show();
+						ToastStrings.NETWORK_FAILED, Toast.LENGTH_SHORT).show();
 			}
 		});
 
 		setContentView(R.layout.activity_map);
 		//线程处理初始化
 		handler = new MyHandler(this);
+		if(getIntent().getExtras()!=null){
+			isFirstLoc = false;
+			new Thread(new getCompanyListInMap()).start();
+		}
+
 		//地图参数设置
 		mMapView = (MapView) findViewById(R.id.mMapView1);
 		mapController = mMapView.getController();
 		mapController.setZoom(ZOOM_LOCATION);
 		currentZoom = (int) ZOOM_LOCATION ;
+
+
 		mMapView.regMapStatusChangeListener(new MKMapStatusChangeListener() {
 
 			@Override
@@ -197,8 +297,55 @@ public class MapActivity extends Activity {
 					zoom_in.setEnabled(true);
 					zoom_out.setEnabled(true);
 				}
+
+				if(currentZoom>=maxZoom){
+					zoom_in.setEnabled(false);
+				}
+
+				if(currentZoom<=minZoom){
+					zoom_out.setEnabled(false);
+				}
 			}
 		});
+
+		//定位Button
+		viewSwitcher = (ViewSwitcher) findViewById(R.id.location);
+		viewSwitcher.setDisplayedChild(0);
+		viewSwitcher.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				viewSwitcher.showNext();
+				isRequest = true;
+				myLocationClient.start();
+				if(!location_record){
+					mMapView.getOverlays().add(myLocationOverlay);
+					mapController.setZoom(ZOOM_LOCATION);
+					mMapView.refresh();
+					location_record = true;
+				}
+			}
+		});
+
+
+		//清除标记点数据
+		ImageButton button_delete = (ImageButton) findViewById(R.id.map_clear);
+		button_delete.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				if(view_record){
+					hidePopup();
+				}
+				removeOverlay();
+			}
+		});
+
+		viewStub = (ViewStub) findViewById(R.id.view_stub);
+		searchbar  = findViewById(R.id.searchbar);
+		button_box = (LinearLayout) findViewById(R.id.buttonsbox);
 
 		// 定位初始化
 		myLocationClient = new LocationClient(getApplicationContext());
@@ -207,9 +354,12 @@ public class MapActivity extends Activity {
 		LocationClientOption option = new LocationClientOption();
 		option.setOpenGps(true);// 打开gps
 		option.setCoorType("bd09ll"); // 设置坐标类型
-		option.setScanSpan(5000);
+		option.setScanSpan(1000);
 		myLocationClient.setLocOption(option);
+		viewSwitcher.showNext();
 		myLocationClient.start();
+
+
 
 		// 定位图层初始化
 		myLocationOverlay = new MyLocationOverlay(mMapView);
@@ -221,10 +371,9 @@ public class MapActivity extends Activity {
 		myLocationOverlay.enableCompass();
 		// 修改定位数据后刷新图层生效
 		mMapView.refresh();
+
 		mkSearch = new MKSearch();
 		mkSearch.init(mapManager, new MySearchListener());
-
-		// handler = new MyHandler1(this);
 
 		dialog = new ProgressDialog(this);
 		dialog.setTitle("提示");
@@ -235,33 +384,20 @@ public class MapActivity extends Activity {
 		et = (TextView) findViewById(R.id.tv_searchbox_home_text);
 		zoom_in = (ImageButton) findViewById(R.id.zoom_in);
 		zoom_out = (ImageButton) findViewById(R.id.zoom_out);
-		
-		sp_layout = (LinearLayout) findViewById(R.id.sp_layout);
-		sp_province = (Spinner) findViewById(R.id.spinner1);
-		sp_city = (Spinner) findViewById(R.id.spinner2);
-		sp_area = (Spinner) findViewById(R.id.spinner3);
-
-		et.setEnabled(false);// 定位完成后再使能，不然容易报错！
 		et.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-
-				sp_layout.setVisibility(View.VISIBLE);
-				flag = false;
+				Intent it = new Intent(MapActivity.this,moreSerachActivity.class);
+				it.putExtra("provinceName",provinceName);
+				it.putExtra("cityName",cityName);
+				it.putExtra("areaName",areaName);
+				tap_record = 0;
+				show_record = 0;
+				startActivity(it);
 			}
 		});
 
-		mMapView.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				sp_layout.setVisibility(View.GONE);
-			}
-		});
-
-		
 		zoom_in.setOnClickListener(new OnClickListener() {
 
 
@@ -295,7 +431,29 @@ public class MapActivity extends Activity {
 			}
 		});
 
-		setSpinner();
+
+		RelativeLayout bottom_btn_rank = (RelativeLayout) findViewById(R.id.route);
+		bottom_btn_rank.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				tap_record = 0;
+				show_record = 0;
+				startActivity(new Intent(MapActivity.this,ProvinceRankActivity.class));
+			}
+		});
+
+		RelativeLayout bottom_btn_distribute = (RelativeLayout) findViewById(R.id.nearby);
+		bottom_btn_distribute.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+
+			}
+		});
 
 		MyApplication.getInstance().addActivity(this);
 
@@ -305,9 +463,6 @@ public class MapActivity extends Activity {
 
 		mOverlay = new MyOverlay(getResources().getDrawable(
 				R.drawable.icon_gcoding), mMapView);
-		viewCache = getLayoutInflater().inflate(R.layout.layout_popup, null);
-		popupInfo = viewCache.findViewById(R.id.popup);
-		popupText = (TextView) viewCache.findViewById(R.id.textcache);
 
 		if (CompanyPositions.length > 0) {
 			for (int i = 0; i < CompanyPositions.length; i++) {
@@ -331,8 +486,7 @@ public class MapActivity extends Activity {
 					item.setMarker(getResources().getDrawable(R.drawable.green));
 					break;
 				case 4:
-					item.setMarker(getResources()
-							.getDrawable(R.drawable.yellow));
+					item.setMarker(getResources().getDrawable(R.drawable.yellow));
 					break;
 				case 5:
 					item.setMarker(getResources().getDrawable(R.drawable.pink));
@@ -346,95 +500,14 @@ public class MapActivity extends Activity {
 			}
 			mMapView.getOverlays().add(mOverlay);
 			mMapView.refresh();
-			sp_layout.setVisibility(View.GONE);
-
-			PopupClickListener popListener = new PopupClickListener() {
-
-				@Override
-				public void onClickedPopup(int arg0) {
-
-					startActivity(it);
-				}
-			};
-
-			pop = new PopupOverlay(mMapView, popListener);
 		}
 
 	}
 
 	private void removeOverlay() {
+		location_record = false;
 		mMapView.getOverlays().clear();
 		mMapView.refresh();
-	}
-
-
-	private void setSpinner() {
-
-		sp_province
-				.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-					@Override
-					public void onItemSelected(AdapterView<?> arg0, View arg1,
-							int arg2, long arg3) {
-						if (flag) {
-							new Thread(new GetCityThreadAfterLocation())
-									.start();
-						} else {
-							// 此线程初始化city数据的同时，获取province的lat和lng
-							new Thread(new GetCityThread()).start();
-							if (sp_province.getSelectedItem().toString() != provinces[0]) {
-								dialog.show();
-							}
-
-						}
-
-					}
-
-					@Override
-					public void onNothingSelected(AdapterView<?> arg0) {
-
-					}
-				});
-
-		sp_city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				//FLAG作用是定位后且设置spinner，才能允许用户点击搜索框，，进行再次spinner搜索。否则定位未完成，点击搜索框，则报错。
-				if (flag) {
-					new Thread(new GetAreaThreadAfterLocation()).start();
-				} else {
-					new Thread(new GetAreaThread()).start();
-					if (sp_city.getSelectedItem().toString() != cities[0]) {
-						dialog.show();
-					}
-				}
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-
-			}
-
-		});
-
-		sp_area.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-
-				// 改变地图坐标的同时，获取所有区域内公司的经纬度信息并加载标记点
-				new Thread(new AreaThread()).start();
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> arg0) {
-
-			}
-		});
-
 	}
 
 	@Override
@@ -491,8 +564,15 @@ public class MapActivity extends Activity {
 	@Override  
 	public boolean onKeyDown(int keyCode, KeyEvent event) {  
 		if(keyCode == KeyEvent.KEYCODE_BACK)  
-		{    
-			exitBy2Click();      //调用双击退出函数  
+		{   
+			if(view_record){
+				hidePopup();
+				
+			}else{
+				//调用双击退出函数  
+				exitBy2Click();
+			}
+			
 		}  
 		return false;  
 	}  
@@ -518,7 +598,7 @@ public class MapActivity extends Activity {
 			MyApplication.getInstance().exit();
 		}  
 	}
-	 
+
 
 
 	static class MyHandler extends Handler {
@@ -531,107 +611,43 @@ public class MapActivity extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			MapActivity theActivity = mActivity.get();
-			if (msg.what == 1) {
-				theActivity.removeOverlay();
-				theActivity.sp_province.setAdapter(new ArrayAdapter<String>(
-						theActivity, R.layout.item_sp_types, provinces));
-				theActivity.dialog.dismiss();
-			} else if (msg.what == 2) {
-				theActivity.removeOverlay();
-				theActivity.sp_city.setAdapter(new ArrayAdapter<String>(
-						theActivity, R.layout.item_sp_types, cities));
-				theActivity.dialog.dismiss();
-				if (msg.obj != null) {
-					Double lat = Double.parseDouble(msg.obj.toString().split(
-							",")[0]);
-					Double lng = Double.parseDouble(msg.obj.toString().split(
-							",")[1]);
-					GeoPoint point = new GeoPoint((int) (lng * 1E6),
-							(int) (lat * 1E6));
-					theActivity.mapController.setZoom(msg.arg1);
-					theActivity.mapController.setCenter(point);
-				}
-			} else if (msg.what == 3) {
-				theActivity.removeOverlay();
-				theActivity.sp_area.setAdapter(new ArrayAdapter<String>(
-						theActivity, R.layout.item_sp_types, areas));
-				theActivity.dialog.dismiss();
-				if (msg.obj != null) {
-					Double lat = Double.parseDouble(msg.obj.toString().split(
-							",")[0]);
-					Double lng = Double.parseDouble(msg.obj.toString().split(
-							",")[1]);
-					GeoPoint point = new GeoPoint((int) (lng * 1E6),
-							(int) (lat * 1E6));
-					theActivity.mapController.setZoom(msg.arg1);
-					theActivity.mapController.setCenter(point);
-				}
-			} else if (msg.what == 4) {
-				theActivity.removeOverlay();
-				if (msg.obj != null) {
-					Double lat = Double.parseDouble(msg.obj.toString().split(
-							",")[0]);
-					Double lng = Double.parseDouble(msg.obj.toString().split(
-							",")[1]);
-					GeoPoint point = new GeoPoint((int) (lng * 1E6),
-							(int) (lat * 1E6));
-					theActivity.mapController.setZoom(msg.arg1);
-					theActivity.mapController.setCenter(point);
-					theActivity.initOverlay();
-				}
-			}
-			// 通过定位得到覆盖物的数据处理
-			else if (msg.what == 5) {
+			if (msg.what == 5) {
 				if (CompanyPositions.length > 0) {
-					Toast.makeText(theActivity,
-							"你所在位置为\n" + provinceName + cityName + areaName,
-							Toast.LENGTH_SHORT).show();
 					theActivity.initOverlay();
+					theActivity.myLocationClient.stop();
 				} else {
 					Toast.makeText(theActivity,
 							"你所在位置为" + provinceName + cityName + areaName,
 							Toast.LENGTH_SHORT).show();
 					Toast.makeText(theActivity, "你所在区域没有设备！",
 							Toast.LENGTH_SHORT).show();
+					theActivity.myLocationClient.stop();
+					theActivity.viewSwitcher.showNext();
 				}
-			}
-			// 通过位置信息设置spinner省默认值
-			else if (msg.what == 6) {
-				theActivity.sp_province.setAdapter(new ArrayAdapter<String>(
-						theActivity, R.layout.item_sp_types, provinces));
-				for (int i = 0; i < provinces.length; i++) {
-					// theActivity.address.setText(provinceName);
-					if (provinces[i].equals(provinceName)) {
-						theActivity.sp_province.setSelection(i, true);
-					}
+			}else if(msg.what ==  4){
+				theActivity.removeOverlay();
+				if(msg.obj!=null){
+					Double lat = Double.parseDouble(msg.obj.toString().split(
+							",")[0]);
+					Double lng = Double.parseDouble(msg.obj.toString().split(
+							",")[1]);
+					GeoPoint point = new GeoPoint((int) (lng * 1E6),
+							(int) (lat * 1E6));
+					theActivity.mapController.setZoom(13);
+					theActivity.mapController.setCenter(point);
+					theActivity.initOverlay();
+					theActivity.viewSwitcher.showNext();
+				//	show_record = theActivity.selectionInIntent;
+					
+					
 				}
-			}
-			// 通过位置信息设置spinner城市默认值
-			else if (msg.what == 7) {
-				theActivity.sp_city.setAdapter(new ArrayAdapter<String>(
-						theActivity, R.layout.item_sp_types, cities));
-				for (int i = 0; i < cities.length; i++) {
-					if (cities[i].equals(cityName)) {
-						theActivity.sp_city.setSelection(i, true);
-					}
-				}
-			}
-			// 通过位置信息设置spinner地区默认值
-			else if (msg.what == 8) {
-				theActivity.sp_area.setAdapter(new ArrayAdapter<String>(
-						theActivity, R.layout.item_sp_types, areas));
-				for (int i = 0; i < areas.length; i++) {
-					if (areas[i].equals(areaName)) {
-						theActivity.sp_area.setSelection(i, true);
-						Toast.makeText(theActivity, "3！", Toast.LENGTH_SHORT)
-								.show();
-					}
-				}
-				theActivity.et.setEnabled(true);
 			}
 		}
 
 	}
+
+
+
 
 	class MyOverlay extends ItemizedOverlay<OverlayItem> {
 
@@ -640,63 +656,206 @@ public class MapActivity extends Activity {
 
 		}
 
+
+		
+
 		@Override
 		public boolean onTap(GeoPoint arg0, MapView arg1) {
-
-			if (pop != null) {
-				pop.hidePop();
-			}
-
+	
 			return false;
 		}
 
 		@Override
-		protected boolean onTap(int arg0) {
-
+		protected boolean onTap(final int arg0) {
+			iconTapReturn(arg0);			
 			OverlayItem item = getItem(arg0);
-			popupText.setText(item.getTitle());
-			it = new Intent(MapActivity.this, EquipInfoActivity.class);
-			it.putExtra("unitAddress", item.getTitle());
-			Bitmap[] bitMaps = { BMapUtils.getBitmapFromView(popupInfo) };
-			pop.showPopup(bitMaps, item.getPoint(), 32);
+			unitAddress_tapped = item.getTitle();
+			if(!isInflated){
+				showPopupBeforInflated();
+				//inflate之后获取组件
+				title_bar_left = (ImageView) findViewById(R.id.iv_searchbox_search_back);
+				title_bar_middle = (TextView) findViewById(R.id.edittext_searchbox_search_input);
+				title_bar_right = (TextView) findViewById(R.id.tv_searchbox_list);
+				button_previous = (LinearLayout) findViewById(R.id.btn_poidetail_nearby);
+				button_next = (LinearLayout)findViewById(R.id.btn_poidetail_nav);
+				button_phone = (LinearLayout) findViewById(R.id.btn_poidetail_phone);			
 
+				//title_bar左边返回键
+				title_bar_left.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						if(view_record){
+							hidePopup();
+							iconTapReturn(show_record);
+							iconButtonReturn(show_record);
+						}
+					}
+				});
+				
+				//中间标题
+				title_bar_middle.setText(provinceInIntent+cityInIntent+areaInIntent);
+				
+				//右边切换列表
+				/*
+				 * 考虑到所有的标记点信息已经存在CompanyPositions里面了
+				 * （形式为字符串：lng+","+lat+","+riskValue+","+craneNumber+","+"safeManager")
+				 * 且顺序是有序的
+				 * 所以切换回列表，并不用将province/city/area传回到列表页
+				 * 只需将两个存储数据的字符串数组CompanyPositions和unitAddresses传过去，解析字符串就行，
+				 * 并不需要进行联网操作，一定程度上优化整个Activity
+				 * 
+				 * */
+				
+				title_bar_right.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+//						Bundle bundle = new Bundle();
+//						bundle.putStringArray("data", CompanyPositions);
+//						Intent it = new Intent(MapActivity.this,AreaRankActivity.class);
+//						it.putExtra("data", bundle);
+//						tap_record = 0;
+//						show_record = 0;
+//						startActivity(it);
+						Intent it = new Intent(MapActivity.this,PlaceRankActivity.class);
+						it.putExtra("province", provinceInIntent);
+						it.putExtra("city", cityInIntent);
+						it.putExtra("area",areaInIntent);
+						tap_record = 0;
+						show_record = 0;
+						startActivity(it);
+						
+					}
+				});
+
+				
+				
+				button_next.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						if(show_record+1<CompanyPositions.length){
+							iconButtonReturn(show_record);
+							show_record = show_record+1;
+							initOverlayData(show_record);
+						//	Log.i("msg", show_record+"没有溢出，数组长度为"+CompanyPositions.length);
+						}else{
+							iconButtonReturn(show_record);
+							show_record = 0;
+							initOverlayData(show_record);
+						//	Log.i("msg", show_record+"溢出");
+						}
+					}
+				});	
+				
+				button_previous.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						if(show_record-1>0){
+							iconButtonReturn(show_record);
+							show_record = show_record - 1;
+							initOverlayData(show_record);
+						}else{
+							iconButtonReturn(show_record);
+							show_record = CompanyPositions.length-1;
+							initOverlayData(show_record);
+						}
+					}
+				});
+				
+				initOverlayData(arg0);		
+			}else{
+				showPopupAfterInflated();
+				initOverlayData(arg0);
+				tap_record = arg0;
+				Log.i("msg",tap_record+"");
+			}	
 			return true;
 		}
-	}
+	
+		private void initOverlayData(int i){
+			show_record=i;
+			((TextView)findViewById(R.id.tv_setctionA)).setText((i+1)+"."+unitAddress_tapped);
+			((TextView)findViewById(R.id.tv_sectionB)).setText("设备数量："+CompanyPositions[i].split(",")[3]);
+			((TextView)findViewById(R.id.tv_sectionC)).setText("负责人："+CompanyPositions[i].split(",")[4]);
+			((TextView)findViewById(R.id.tv_sectionD)).setText("风险值："+CompanyPositions[i].split(",")[2]);
+			getItem(i).setMarker(getResources().getDrawable(R.drawable.icon_openmap_focuse_mark));
+			tap_record = i;
+			mOverlay.updateItem(getItem(i));
+			Double lat = Double.parseDouble(CompanyPositions[i].split(
+					",")[0]);
+			Double lng = Double.parseDouble(CompanyPositions[i].split(
+					",")[1]);
+			Log.i("msg", lat+","+lng);
+			GeoPoint point = new GeoPoint((int) (lng * 1E6),
+					(int) (lat * 1E6));		
+			mapController.animateTo(point);
+			mapController.setCenter(point);
+			mMapView.refresh();
+			view_record = true;
+		}
+		
 
-	class AreaThread implements Runnable {
-
-		@Override
-		public void run() {
-
-			List<String> list = null;
-			HashMap<String, String> params = new HashMap<String, String>();
-			if (sp_area.getSelectedItem() != areas[0]) {
-				params.put("province", sp_province.getSelectedItem().toString());
-				params.put("city", sp_city.getSelectedItem().toString());
-				params.put("area", sp_area.getSelectedItem().toString());
-				Message msg = Message.obtain();
-				responseMsg = CasClient.getInstance().doPost(
-						UrlStrings.GET_LAT_LNG_BY_AREA, params);
-				String message = CasClient.getInstance().doPost(
-						UrlStrings.GET_AREA_INFO, params);
-				try {
-					msg.obj = JsonUtils.getLatLng(responseMsg);
-					list = JsonUtils.getCompanyPosition(message);
-					CompanyPositions = list.toArray(new String[list.size()]);
-					list = JsonUtils.getUnitAddress(message);
-					unitAddresses = list.toArray(new String[list.size()]);
-					msg.what = 4;
-					msg.arg1 = ZOOM_LEVEL_AREA;
-				} catch (Exception e) {
-
-					e.printStackTrace();
+		
+		private void iconTapReturn(int i){
+			if(tap_record!=i){
+				switch(Integer.parseInt(CompanyPositions[tap_record].split(",")[2])){
+				case 1:
+					getItem(tap_record).setMarker(getResources().getDrawable(R.drawable.blue));
+					break;
+				case 2:
+					getItem(tap_record).setMarker(getResources().getDrawable(R.drawable.blue));
+					break;
+				case 3:
+					getItem(tap_record).setMarker(getResources().getDrawable(R.drawable.green));
+					break;
+				case 4:
+					getItem(tap_record).setMarker(getResources().getDrawable(R.drawable.yellow));
+					break;
+				case 5:
+					getItem(tap_record).setMarker(getResources().getDrawable(R.drawable.pink));
+					break;
+				case 6:
+					getItem(tap_record).setMarker(getResources().getDrawable(R.drawable.red));
+					break;
 				}
-				handler.sendMessage(msg);
+				mOverlay.updateItem(getItem(tap_record));
+				mMapView.refresh();
 			}
 		}
 
+		private void iconButtonReturn(int i){
+			switch(Integer.parseInt(CompanyPositions[i].split(",")[2])){
+			case 1:
+				getItem(i).setMarker(getResources().getDrawable(R.drawable.blue));
+				break;
+			case 2:
+				getItem(i).setMarker(getResources().getDrawable(R.drawable.blue));
+				break;
+			case 3:
+				getItem(i).setMarker(getResources().getDrawable(R.drawable.green));
+				break;
+			case 4:
+				getItem(i).setMarker(getResources().getDrawable(R.drawable.yellow));
+				break;
+			case 5:
+				getItem(i).setMarker(getResources().getDrawable(R.drawable.pink));
+				break;
+			case 6:
+				getItem(i).setMarker(getResources().getDrawable(R.drawable.red));
+				break;
+			}
+			mOverlay.updateItem(getItem(i));
+			mMapView.refresh();
+		}
 	}
+
 
 	class locationAreaThread implements Runnable {
 
@@ -724,8 +883,9 @@ public class MapActivity extends Activity {
 			try {
 				list = JsonUtils.getCompanyPosition(message);
 				CompanyPositions = list.toArray(new String[list.size()]);
+				list = JsonUtils.getUnitAddress(message);
+				unitAddresses = list.toArray(new String[list.size()]);
 				msg.what = 5;
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -733,169 +893,34 @@ public class MapActivity extends Activity {
 		}
 	}
 
-	class GetProvinceThread implements Runnable {
+	class getCompanyListInMap implements Runnable{
 
 		@Override
 		public void run() {
-
+			// TODO Auto-generated method stub
 			List<String> list = null;
 			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("list", "得到权限内所有省份");
-			String message = CasClient.getInstance().doPost(
-					UrlStrings.GET_PROVINCE_LIST, params);
+			params.put("province", getIntent().getExtras().getString("province"));
+			params.put("city", getIntent().getExtras().getString("city"));
+			params.put("area", getIntent().getExtras().getString("area"));
 			Message msg = Message.obtain();
-			try {
-				list = JsonUtils.initProvince(message);
-				provinces = list.toArray(new String[list.size()]);
-				msg.what = 1;
-				handler.sendMessage(msg);
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
-		}
-
-	}
-
-	class GetProvinceThreadAfterLocation implements Runnable {
-
-		@Override
-		public void run() {
-
-			List<String> list = null;
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("list", "得到权限内所有省份");
+			String responseMsg = CasClient.getInstance().doPost(
+					UrlStrings.GET_LAT_LNG_BY_AREA, params);
 			String message = CasClient.getInstance().doPost(
-					UrlStrings.GET_PROVINCE_LIST, params);
-			Message msg = Message.obtain();
+					UrlStrings.GET_AREA_INFO, params);
 			try {
-				list = JsonUtils.initProvince(message);
-				provinces = list.toArray(new String[list.size()]);
-				msg.what = 6;
-				handler.sendMessage(msg);
+				msg.obj = JsonUtils.getLatLng(responseMsg);
+				list = JsonUtils.getCompanyPosition(message);
+				CompanyPositions = list.toArray(new String[list.size()]);
+				list = JsonUtils.getUnitAddress(message);
+				unitAddresses = list.toArray(new String[list.size()]);
+				
+				msg.what = 4;
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-
-	}
-
-	class GetCityThread implements Runnable {
-
-		@Override
-		public void run() {
-
-			List<String> list = null;
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("province", sp_province.getSelectedItem().toString());
-			Message msg = Message.obtain();
-			String message = CasClient.getInstance().doPost(
-					UrlStrings.GET_CITY_BY_PROVINCE, params);
-			if (sp_province.getSelectedItem().toString() != provinces[0]) {
-				String message2 = CasClient.getInstance().doPost(
-						UrlStrings.GET_LAT_LNG_BY_PROVINCE,
-						params);
-				try {
-					String latlng = JsonUtils.getLatLng(message2);
-					msg.obj = latlng;
-				} catch (Exception e) {
-
-					e.printStackTrace();
-				}
-			}
-			try {
-				list = JsonUtils.initCity(message);
-				cities = list.toArray(new String[list.size()]);
-				msg.what = 2;
-				msg.arg1 = ZOOM_LEVEL_PROVINCE;
-				handler.sendMessage(msg);
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
-		}
-
-	}
-
-	class GetCityThreadAfterLocation implements Runnable {
-		@Override
-		public void run() {
-			List<String> list = null;
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("province", sp_province.getSelectedItem().toString());
-			Message msg = Message.obtain();
-			String message = CasClient.getInstance().doPost(
-					UrlStrings.GET_CITY_BY_PROVINCE, params);
-			try {
-				list = JsonUtils.initCity(message);
-				cities = list.toArray(new String[list.size()]);
-				msg.what = 7;
-				handler.sendMessage(msg);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
-
-	class GetAreaThread implements Runnable {
-
-		@Override
-		public void run() {
-
-			List<String> list = null;
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("province", sp_province.getSelectedItem().toString());
-			params.put("city", sp_city.getSelectedItem().toString());
-			Message msg = Message.obtain();
-			String message = CasClient.getInstance().doPost(
-					UrlStrings.GET_AREA_BY_CITY, params);
-			if (sp_city.getSelectedItem().toString() != cities[0]) {
-				String message2 = CasClient.getInstance().doPost(
-						UrlStrings.GET_LAT_LNG_BY_CITY, params);
-				try {
-					String latlng = JsonUtils.getLatLng(message2);
-					msg.obj = latlng;
-				} catch (Exception e) {
-
-					e.printStackTrace();
-				}
-			}
-			try {
-				list = JsonUtils.initArea(message);
-				areas = list.toArray(new String[list.size()]);
-				msg.what = 3;
-				msg.arg1 = ZOOM_LEVEL_CITY;
-				handler.sendMessage(msg);
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
-		}
-
-	}
-
-	class GetAreaThreadAfterLocation implements Runnable {
-
-		@Override
-		public void run() {
-
-			List<String> list = null;
-			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("province", sp_province.getSelectedItem().toString());
-			params.put("city", sp_city.getSelectedItem().toString());
-			Message msg = Message.obtain();
-			String message = CasClient.getInstance().doPost(
-					UrlStrings.GET_AREA_BY_CITY, params);
-			try {
-				list = JsonUtils.initArea(message);
-				areas = list.toArray(new String[list.size()]);
-				msg.what = 8;
-				handler.sendMessage(msg);
-			} catch (Exception e) {
-
-				e.printStackTrace();
-			}
+			handler.sendMessage(msg);
 		}
 
 	}
@@ -904,8 +929,12 @@ public class MapActivity extends Activity {
 		public void onGetAddrResult(MKAddrInfo result, int error) {
 			if (error != 0 || result == null) {
 				Toast.makeText(MapActivity.this, "获取地理信息失败", Toast.LENGTH_LONG)
-						.show();
+				.show();
 			} else {
+				if(!isFirstLoc&&isRequest==true){
+					myLocationClient.stop();
+					isRequest=false;
+				}
 
 				provinceName = result.addressComponents.province;
 				provinceName = provinceName.substring(0,
@@ -920,7 +949,6 @@ public class MapActivity extends Activity {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				new Thread(new GetProvinceThreadAfterLocation()).start();
 			}
 
 		}

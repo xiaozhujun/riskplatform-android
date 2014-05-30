@@ -4,4 +4,10 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 	<dimen name="common_searchbox_home_magnifier_margin">12.0dip</dimen>
+	<dimen name="common_topbar_high">54.0dip</dimen>
+	<dimen name="common_right_image_text_width">64.0dip</dimen>
+	<dimen name="common_searchbox_search_high">57.0dip</dimen>
+	<dimen name="common_left_backbtn_width">54.0dip</dimen>
+	<dimen name="title_bar_btn_margin">6.6999817dip</dimen>
+	
 </resources>

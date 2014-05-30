@@ -4,49 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".RankActivity" >
+    android:background="#ffededed"
+    tools:context=".ProvinceRankActivity" >
 
-    <org.whut.utils.BottomTextView
-        android:id="@+id/tv_province"
-        android:layout_width="fill_parent"
-        android:layout_height="35dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:background="@drawable/draw4"/>"
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:background="@color/whitesmoke" >
-
-        <org.whut.utils.BoderTextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/rank_num" />
-
-        <org.whut.utils.BoderTextView
-            android:id="@+id/txv_rank"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_weight="3"
-            android:gravity="center"
-            android:text="@string/rankcity" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/rankvalue" />
-    </LinearLayout>
+    <include layout="@layout/common_topbar_equip" />
 
     <ListView
         android:id="@+id/list_serach_rank"
@@ -55,11 +16,5 @@
         android:layout_weight="1"
         android:paddingLeft="20dp"
         android:paddingRight="20dp" />
-
-    <include
-        android:id="@+id/likeActonbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/layout_likeactionbar" />
 
 </LinearLayout>
