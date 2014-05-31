@@ -114,15 +114,15 @@ public class JsonUtils {
 			map.put("userPoint","使用地点："+jsonItem.getString("userPoint"));
 			data.add(map);			
 		}
-		//测试数据
-		for(int j=0;j<7;j++){
-			Map<String,String> map = new HashMap<String,String>();
-			map.put("unitAddress", "测试数据一");
-			map.put("equipmentVariety",(j+2)+"、门式起重机");
-			map.put("riskValue", "风险值：6");
-			map.put("userPoint","使用地点：厂房");
-			data.add(map);
-		}
+//		//测试数据
+//		for(int j=0;j<7;j++){
+//			Map<String,String> map = new HashMap<String,String>();
+//			map.put("unitAddress", "测试数据一");
+//			map.put("equipmentVariety",(j+2)+"、门式起重机");
+//			map.put("riskValue", "风险值：6");
+//			map.put("userPoint","使用地点：厂房");
+//			data.add(map);
+//		}
 		return data;
 	}
 
@@ -222,7 +222,7 @@ public class JsonUtils {
 		JSONArray jsonArray = jsonObject.getJSONArray("data");
 		for(int i=0;i<jsonArray.length();i++){
 			JSONObject jsonItem = jsonArray.getJSONObject(i);
-			String result = jsonItem.getString("lng")+","+jsonItem.getString("lat")+","+(jsonItem.getInt("riskValue")+","+jsonItem.getString("craneNumber")+","+jsonItem.getString("safeManager"));
+			String result = jsonItem.getString("lng")+","+jsonItem.getString("lat")+","+(jsonItem.getInt("riskValue")+","+jsonItem.getString("craneNumber")+","+jsonItem.getString("safeManager")+","+jsonItem.getString("contactPhone"));
 			list.add(result);
 		}				
 		return list;	

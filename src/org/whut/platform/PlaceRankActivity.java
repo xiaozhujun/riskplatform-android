@@ -29,15 +29,15 @@ public class PlaceRankActivity extends Activity {
 	private MyHandler myHandler;
 	private TextView textView;
 	private ProgressDialog dialog;
-	
+
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
 		super.onBackPressed();
 		finish();
 	}
-	
-	
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,46 +45,59 @@ public class PlaceRankActivity extends Activity {
 		listView=(ListView)findViewById(R.id.list_serach_rank);
 		textView=(TextView)findViewById(org.whut.platform.R.id.tv_topbar_middle_detail);
 		textView.setText(getIntent().getExtras().getString("area")+"风险排名");
-		
+
 		myHandler=new MyHandler(this);
 		MyApplication.getInstance().addActivity(this);
-		
+
 		dialog = new ProgressDialog(this);
 		dialog.setTitle("提示");
 		dialog.setMessage("正在获取数据，请稍后...");
 		dialog.setCancelable(true);
 		dialog.setIndeterminate(false);
 		dialog.show();
-		
+
 		findViewById(R.id.iv_topbar_left_back).setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				PlaceRankActivity.this.finish();
+				if(getIntent().getExtras().getString("tag")!=null){
+					PlaceRankActivity.this.finish();
+				}else{
+					Intent it = new Intent(PlaceRankActivity.this,AreaRankActivity.class);
+					it.putExtra("province", getIntent().getExtras().getString("province"));
+					it.putExtra("city",getIntent().getExtras().getString("city"));
+					startActivity(it);
+					finish();
+				}
 			}
 		});
 
 		TextView tv = (TextView) findViewById(R.id.tv_topbar_right_map);
-				
-			tv.setOnClickListener(new View.OnClickListener() {
-			
+
+		tv.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent it = new Intent(PlaceRankActivity.this,MapActivity.class);
-				it.putExtra("province",getIntent().getExtras().getString("province"));
-				it.putExtra("city",getIntent().getExtras().getString("city"));
-				it.putExtra("area",getIntent().getExtras().getString("area"));
-				startActivity(it);
-				PlaceRankActivity.this.finish();
+
+				if(getIntent().getExtras().getString("tag")!=null){
+					PlaceRankActivity.this.finish();
+				}else{
+					Intent it = new Intent(PlaceRankActivity.this,MapActivity.class);
+					it.putExtra("province",getIntent().getExtras().getString("province"));
+					it.putExtra("city",getIntent().getExtras().getString("city"));
+					it.putExtra("area",getIntent().getExtras().getString("area"));
+					startActivity(it);
+					PlaceRankActivity.this.finish();
+				}
 			}
 		});
-		
+
 		new Thread(new placeThread()).start();
-		
+
 	}
-	
+
 	static class MyHandler extends Handler{
 		WeakReference<PlaceRankActivity> myActivity;
 		MyHandler(PlaceRankActivity acitvity)
@@ -111,23 +124,23 @@ public class PlaceRankActivity extends Activity {
 							@SuppressWarnings("unchecked")
 							HashMap<String, String> map = (HashMap<String, String>) listView.getItemAtPosition(position);
 							String unitAddress = map.get("company_name");
-						    Intent it = new Intent(theAcitvity,EquipInfoActivity.class);
-						    it.putExtra("unitAddress", unitAddress);
-						    theAcitvity.startActivity(it);
+							Intent it = new Intent(theAcitvity,EquipInfoActivity.class);
+							it.putExtra("unitAddress", unitAddress);
+							theAcitvity.startActivity(it);
 						}
 					});
-					
+
 					return convertView;
-				
+
 				}
-				
+
 			};
 			theAcitvity.listView.setAdapter(simpleAdapter);
 			theAcitvity.dialog.dismiss();
 		}
-		
+
 	}
-	
+
 	class placeThread implements Runnable{
 
 		@Override
@@ -136,20 +149,20 @@ public class PlaceRankActivity extends Activity {
 			HashMap<String,String> request_data = new HashMap<String,String>();
 			List<Map<String,String>> list = null;
 			try{
-			request_data.put("province", getIntent().getExtras().getString("province"));
-			request_data.put("city", getIntent().getExtras().getString("city"));
-			request_data.put("area",getIntent().getExtras().getString("area"));
-			String message = CasClient.getInstance().doPost(UrlStrings.SHOW_RANK, request_data);			
-			list = JsonUtils.getCompanyRankList(message);
-			msg.obj=list;
-			myHandler.sendMessage(msg);
+				request_data.put("province", getIntent().getExtras().getString("province"));
+				request_data.put("city", getIntent().getExtras().getString("city"));
+				request_data.put("area",getIntent().getExtras().getString("area"));
+				String message = CasClient.getInstance().doPost(UrlStrings.SHOW_RANK, request_data);			
+				list = JsonUtils.getCompanyRankList(message);
+				msg.obj=list;
+				myHandler.sendMessage(msg);
 			}catch(Exception e){
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 	}
-	
+
 
 }

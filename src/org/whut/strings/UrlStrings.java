@@ -1,7 +1,7 @@
 package org.whut.strings;
 
 public class UrlStrings {
-	public static final String BASE_URL = "http://192.168.137.1:8080/riskManagement";
+	public static final String BASE_URL = "http://www.cseicms.com/riskManagement";
 	public static final String SECURITY_CHECK= BASE_URL+"/j_spring_cas_security_check";
 	public static final String GET_LAT_LNG_BY_PROVINCE = BASE_URL+"/rs/craneinspectreport/getLatLngByProvince";
 	public static final String GET_LAT_LNG_BY_CITY = BASE_URL+"/rs/craneinspectreport/getLatLngByCity";

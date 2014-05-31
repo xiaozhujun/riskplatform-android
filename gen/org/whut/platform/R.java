@@ -486,12 +486,12 @@ public final class R {
         public static final int title_bar_btn_margin=0x7f060007;
     }
     public static final class drawable {
-        public static final int app_icon=0x7f020073;
+        public static final int app_icon=0x7f020077;
         public static final int back_btn=0x7f020000;
         public static final int back_btn_down=0x7f020001;
         public static final int bg_choose_dishname=0x7f020002;
         public static final int blue=0x7f020003;
-        public static final int border_color=0x7f02006f;
+        public static final int border_color=0x7f020073;
         public static final int btn_back_common=0x7f020004;
         public static final int button_down=0x7f020005;
         public static final int button_my_login=0x7f020006;
@@ -591,18 +591,22 @@ public final class R {
         public static final int previous=0x7f020064;
         public static final int red=0x7f020065;
         public static final int route_bottom_bar_bg=0x7f020066;
-        public static final int screen_background_light=0x7f020074;
-        public static final int shape=0x7f020067;
-        public static final int topbar_view_list=0x7f020068;
-        public static final int topbar_view_map=0x7f020069;
-        public static final int trans=0x7f02006a;
-        public static final int transp=0x7f02006b;
-        public static final int transparent=0x7f020070;
-        public static final int user_center_tool_bg=0x7f020071;
-        public static final int user_center_tool_bg_pressed=0x7f020072;
-        public static final int vertial_divider_line=0x7f02006c;
-        public static final int voice_btn_background=0x7f02006d;
-        public static final int yellow=0x7f02006e;
+        public static final int screen_background_light=0x7f020078;
+        public static final int select_icon1=0x7f020067;
+        public static final int select_icon2=0x7f020068;
+        public static final int select_icon3=0x7f020069;
+        public static final int selected_icon=0x7f02006a;
+        public static final int shape=0x7f02006b;
+        public static final int topbar_view_list=0x7f02006c;
+        public static final int topbar_view_map=0x7f02006d;
+        public static final int trans=0x7f02006e;
+        public static final int transp=0x7f02006f;
+        public static final int transparent=0x7f020074;
+        public static final int user_center_tool_bg=0x7f020075;
+        public static final int user_center_tool_bg_pressed=0x7f020076;
+        public static final int vertial_divider_line=0x7f020070;
+        public static final int voice_btn_background=0x7f020071;
+        public static final int yellow=0x7f020072;
     }
     public static final class id {
         public static final int ItemDistance=0x7f0c0069;

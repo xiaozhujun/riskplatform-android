@@ -3,6 +3,8 @@ package org.whut.platform;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
+
+import org.whut.application.MyApplication;
 import org.whut.client.CasClient;
 import org.whut.strings.UrlStrings;
 import org.whut.utils.JsonUtils;
@@ -111,6 +113,7 @@ public class moreSerachActivity extends Activity{
 		sp_riskvalue.setAdapter(ArrayAdapter.createFromResource(this, org.whut.platform.R.array.riskvalueSpinnerData, R.layout.simple_list_item_1));
 
 		datahandle=new receiveDatahandle(this);
+		MyApplication.getInstance().addActivity(this);
 		
 		((Button)findViewById(org.whut.platform.R.id.btn_serach)).setOnClickListener(new OnClickListener() {
 
