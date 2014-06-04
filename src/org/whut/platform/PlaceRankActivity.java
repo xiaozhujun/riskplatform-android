@@ -61,15 +61,11 @@ public class PlaceRankActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(getIntent().getExtras().getString("tag")!=null){
-					PlaceRankActivity.this.finish();
-				}else{
 					Intent it = new Intent(PlaceRankActivity.this,AreaRankActivity.class);
 					it.putExtra("province", getIntent().getExtras().getString("province"));
 					it.putExtra("city",getIntent().getExtras().getString("city"));
 					startActivity(it);
 					finish();
-				}
 			}
 		});
 
@@ -89,7 +85,7 @@ public class PlaceRankActivity extends Activity {
 					it.putExtra("city",getIntent().getExtras().getString("city"));
 					it.putExtra("area",getIntent().getExtras().getString("area"));
 					startActivity(it);
-					PlaceRankActivity.this.finish();
+				//	PlaceRankActivity.this.finish();
 				}
 			}
 		});

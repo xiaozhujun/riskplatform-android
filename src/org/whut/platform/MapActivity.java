@@ -52,6 +52,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewStub;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -108,6 +109,7 @@ public class MapActivity extends Activity {
 	private LinearLayout button_previous;
 	private LinearLayout button_next;
 	private LinearLayout button_phone;
+	private Button button_show_detail;
 
 	//记录ViewStub是否infalte过
 	private static boolean isInflated = false;
@@ -143,7 +145,7 @@ public class MapActivity extends Activity {
 			locationData.accuracy = location.getRadius();
 			locationData.direction = location.getDerect();
 			myLocationOverlay.setData(locationData);
-			Log.i("msg", "草尼玛哟");
+			//Log.i("msg", "..");
 			mMapView.refresh();
 
 			if (isRequest || isFirstLoc) {
@@ -152,7 +154,7 @@ public class MapActivity extends Activity {
 						(int) (locationData.longitude * 1e6));
 				mapController.animateTo(point);
 				mapController.setCenter(point);
-			//	Log.i("msg", locationData.latitude+","+locationData.longitude);
+				//	Log.i("msg", locationData.latitude+","+locationData.longitude);
 				isRequest = false;
 				myLocationOverlay.setLocationMode(LocationMode.NORMAL);
 				mkSearch.reverseGeocode(point);
@@ -171,7 +173,7 @@ public class MapActivity extends Activity {
 		}
 	}
 
-	private void initListener(int i){
+	private void initListener(final int i){
 		if(!isInflated){
 			showPopupBeforInflated();
 		}else{
@@ -201,10 +203,10 @@ public class MapActivity extends Activity {
 
 		//中间标题
 		if(provinceInIntent!=null&&cityInIntent!=null&&areaInIntent!=null){
-		//	Log.i("msg", provinceName+cityName+areaName+provinceInIntent+cityInIntent+areaInIntent);
+			//	Log.i("msg", provinceName+cityName+areaName+provinceInIntent+cityInIntent+areaInIntent);
 			title_bar_middle.setText(provinceInIntent+cityInIntent+areaInIntent);
 		}else{
-		//	Log.i("msg", provinceName+cityName+areaName+provinceInIntent+cityInIntent+areaInIntent);
+			//	Log.i("msg", provinceName+cityName+areaName+provinceInIntent+cityInIntent+areaInIntent);
 			title_bar_middle.setText(provinceName+cityName+areaName);
 		}
 
@@ -220,6 +222,7 @@ public class MapActivity extends Activity {
 					it.putExtra("province", provinceInIntent);
 					it.putExtra("city", cityInIntent);
 					it.putExtra("area",areaInIntent);
+					//表示是从地图页跳过去的
 					it.putExtra("tag", "from_map_to_list");
 				}else{
 					it.putExtra("province", provinceName);
@@ -228,6 +231,7 @@ public class MapActivity extends Activity {
 					it.putExtra("tag", "from_map_to_list");
 				}
 				show_record = 0;
+				view_record = false;
 				startActivity(it);
 			}
 		});
@@ -300,7 +304,7 @@ public class MapActivity extends Activity {
 								dialog.dismiss();
 							}
 						}).setNegativeButton("呼叫", new DialogInterface.OnClickListener() {
-							
+
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								// TODO Auto-generated method stub
@@ -328,7 +332,7 @@ public class MapActivity extends Activity {
 								// TODO Auto-generated method stub
 								Intent it = new Intent();
 								it.setAction(Intent.ACTION_CALL);
-								it.setData(Uri.parse("tel:"+"tel:"+CompanyPositions[tap_record].split(",")[5].split("/")[phone_record]));
+								it.setData(Uri.parse("tel:"+CompanyPositions[tap_record].split(",")[5].split("/")[phone_record]));
 								Log.i("msg", CompanyPositions[tap_record].split(",")[5].split("/")[phone_record]);
 								startActivity(it);
 								dialog.dismiss();
@@ -336,7 +340,7 @@ public class MapActivity extends Activity {
 
 
 						}).setPositiveButton("取消", new DialogInterface.OnClickListener() {
-							
+
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								// TODO Auto-generated method stub
@@ -349,6 +353,19 @@ public class MapActivity extends Activity {
 			}
 		});
 
+		button_show_detail = (Button) findViewById(R.id.btn_poidetail_showmap);
+		button_show_detail.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent it = new Intent(MapActivity.this,EquipInfoActivity.class);
+				it.putExtra("unitAddress", unitAddresses[i]);
+				//标记，表示是从地图页跳过去
+				it.putExtra("tag", tap_record);
+				startActivity(it);
+			}
+		});
 	}
 
 
@@ -365,12 +382,24 @@ public class MapActivity extends Activity {
 				mOverlay.getAllItem().get(tap_record).setMarker(getResources().getDrawable(R.drawable.green));
 				break;
 			case 4:
-				mOverlay.getAllItem().get(tap_record).setMarker(getResources().getDrawable(R.drawable.yellow));
+				mOverlay.getAllItem().get(tap_record).setMarker(getResources().getDrawable(R.drawable.green));
 				break;
 			case 5:
-				mOverlay.getAllItem().get(tap_record).setMarker(getResources().getDrawable(R.drawable.pink));
+				mOverlay.getAllItem().get(tap_record).setMarker(getResources().getDrawable(R.drawable.yellow));
 				break;
 			case 6:
+				mOverlay.getAllItem().get(tap_record).setMarker(getResources().getDrawable(R.drawable.yellow));
+				break;
+			case 7:
+				mOverlay.getAllItem().get(tap_record).setMarker(getResources().getDrawable(R.drawable.pink));
+				break;
+			case 8:
+				mOverlay.getAllItem().get(tap_record).setMarker(getResources().getDrawable(R.drawable.pink));
+				break;
+			case 9:
+				mOverlay.getAllItem().get(tap_record).setMarker(getResources().getDrawable(R.drawable.red));
+				break;
+			case 10:
 				mOverlay.getAllItem().get(tap_record).setMarker(getResources().getDrawable(R.drawable.red));
 				break;
 			}
@@ -394,7 +423,7 @@ public class MapActivity extends Activity {
 				",")[0]);
 		Double lng = Double.parseDouble(CompanyPositions[i].split(
 				",")[1]);
-//		Log.i("msg", lat+","+lng);
+		//		Log.i("msg", lat+","+lng);
 		GeoPoint tap_point = new GeoPoint((int) (lng * 1E6),
 				(int) (lat * 1E6));		
 		mapController.animateTo(tap_point);
@@ -445,12 +474,24 @@ public class MapActivity extends Activity {
 			mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.green));
 			break;
 		case 4:
-			mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.yellow));
+			mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.green));
 			break;
 		case 5:
-			mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.pink));
+			mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.yellow));
 			break;
 		case 6:
+			mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.yellow));
+			break;
+		case 7:
+			mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.pink));
+			break;
+		case 8:
+			mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.pink));
+			break;
+		case 9:
+			mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.red));
+			break;
+		case 10:
 			mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.red));
 			break;
 		}
@@ -560,6 +601,12 @@ public class MapActivity extends Activity {
 				// TODO Auto-generated method stub
 				viewSwitcher.showNext();
 				removeOverlay();
+				
+				//点击定位button，清除Overlay数据后，intent中的参数置空，不然分布图显示的仍是Intent中所带过来的省市区
+				provinceInIntent = null;
+				cityInIntent = null;
+				areaInIntent = null;
+				
 				tap_record = 0;
 				isRequest = true;
 				myLocationClient.start();
@@ -694,8 +741,19 @@ public class MapActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-
-
+				Intent it=new Intent(MapActivity.this,AreaRankPieChart.class);
+				if(provinceInIntent!=null){
+					it.putExtra("province",provinceInIntent);
+					it.putExtra("city",cityInIntent);
+					it.putExtra("area",areaInIntent);
+					Log.i("msg", provinceInIntent+cityInIntent+areaInIntent);
+					startActivity(it);	
+				}else{
+					it.putExtra("province", provinceName);
+					it.putExtra("city", cityName);
+					it.putExtra("area", areaName);
+					startActivity(it);
+				}
 			}
 		});
 
@@ -728,12 +786,24 @@ public class MapActivity extends Activity {
 					item.setMarker(getResources().getDrawable(R.drawable.green));
 					break;
 				case 4:
-					item.setMarker(getResources().getDrawable(R.drawable.yellow));
+					item.setMarker(getResources().getDrawable(R.drawable.green));
 					break;
 				case 5:
-					item.setMarker(getResources().getDrawable(R.drawable.pink));
+					item.setMarker(getResources().getDrawable(R.drawable.yellow));
 					break;
 				case 6:
+					item.setMarker(getResources().getDrawable(R.drawable.yellow));
+					break;
+				case 7:
+					item.setMarker(getResources().getDrawable(R.drawable.pink));
+					break;
+				case 8:
+					item.setMarker(getResources().getDrawable(R.drawable.pink));
+					break;
+				case 9:
+					item.setMarker(getResources().getDrawable(R.drawable.red));
+					break;
+				case 10:
 					item.setMarker(getResources().getDrawable(R.drawable.red));
 					break;
 				}

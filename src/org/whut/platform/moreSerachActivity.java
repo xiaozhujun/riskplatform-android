@@ -128,7 +128,7 @@ public class moreSerachActivity extends Activity{
 				Intent intent=new Intent();
 
 				if (sp_provinces.getSelectedItem().toString()!=provinces.get(0)) {
-					intent.setClass(moreSerachActivity.this, moreSerachResultActivity.class);
+					intent.setClass(moreSerachActivity.this, CityRankActivity.class);
 					intent.putExtra("province", sp_provinces.getSelectedItem().toString());
 					if (sp_cities.getSelectedItem().toString()!=cities.get(0)) {
 						intent.setClass(moreSerachActivity.this, AreaRankActivity.class);

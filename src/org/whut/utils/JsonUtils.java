@@ -376,5 +376,17 @@ public class JsonUtils {
 			// TODO Auto-generated method stub
 			return null;
 		}
+		
+		public static int[] GetRankStatistics(String message) throws Exception{
+			int[] rankarray={0,0,0,0,0,0,0,0,0,0};
+			JSONObject jsonObject = new JSONObject(message);
+			JSONArray jsonArray = jsonObject.getJSONArray("data");
+			for(int i=0;i<jsonArray.length();i++){
+				JSONObject jsonItem =jsonArray.getJSONObject(i);
+				rankarray[jsonItem.getInt("riskValue")-1]+=jsonItem.getInt("craneNumber");
+			}
+			return rankarray;
+		}
+		
 	
 }

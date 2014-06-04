@@ -38,6 +38,8 @@ public class EquipInfoActivity extends Activity{
 	private String[] equipmentVarieties = {"设备类型","冶金桥式起重机","通用门式起重机","电动葫芦门式起重机","门式起重机","轨道式集装箱门式起重机","轮胎式门式起重机"};
 	//用来记录收藏按钮的状态
 	private static boolean isCollected = false;
+	
+	private String[] unitAddresses;
 
 	@Override
 	public void onBackPressed() {
@@ -68,21 +70,23 @@ public class EquipInfoActivity extends Activity{
 		listView = (ListView) findViewById(R.id.listview1);
 
 		findViewById(R.id.iv_topbar_left_back).setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				EquipInfoActivity.this.finish();
+
+					EquipInfoActivity.this.finish();
+				
 			}
 		});
-		
+
 		TextView textView_title = (TextView)findViewById(org.whut.platform.R.id.tv_topbar_middle_detail);
 		textView_title.setText("设备信息");
-		
+
 		RelativeLayout rl = (RelativeLayout) findViewById(org.whut.platform.R.id.tv_topbar_right_map_layout);
 		rl.setVisibility(View.INVISIBLE);
 		rl.setFocusable(false);
-		
+
 		new Thread(new GetWebDataThread()).start();
 
 
@@ -105,8 +109,8 @@ public class EquipInfoActivity extends Activity{
 			final EquipInfoActivity theActivity = mActivity.get();
 			@SuppressWarnings("unchecked")
 			List<Map<String,String>> list  = (List<Map<String, String>>) msg.obj;
-			//此处有误
-			theActivity.tv.setText(list.get(0).get("unitAddress"));
+			//此处有误,公司地址和unitAddresses混淆（服务器端数据库设计问题，暂不修改，后期改正）
+			theActivity.tv.setText(theActivity.unitAddresses[0]);
 
 			SimpleAdapter adapter = new SimpleAdapter(theActivity, list, R.layout.popup_bottom_view, new String[]{"equipmentVariety","riskValue","userPoint"}, new int[]{R.id.layout_title,R.id.riskValue,R.id.use_point})
 			{
@@ -127,9 +131,9 @@ public class EquipInfoActivity extends Activity{
 
 					final RelativeLayout button_collect = (RelativeLayout) convertView.findViewById(R.id.button_call_layout);
 					final Button button = (Button) button_collect.findViewById(R.id.button_call); 
-					
-					
-					
+
+
+
 					button_collect.setOnClickListener(new View.OnClickListener() {
 
 						@Override
@@ -171,6 +175,8 @@ public class EquipInfoActivity extends Activity{
 			Message msg = Message.obtain();
 			try {
 				List<Map<String,String>> list = JsonUtils.getEquipInfoData(message);
+				List<String> list2 = JsonUtils.getUnitAddress(message);
+				unitAddresses = list2.toArray(new String[list2.size()]);
 				msg.obj = list;
 				handler.sendMessage(msg);
 			} catch (Exception e) {
