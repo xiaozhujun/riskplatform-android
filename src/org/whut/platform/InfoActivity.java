@@ -3,19 +3,26 @@ package org.whut.platform;
 
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.whut.application.MyApplication;
 import org.whut.client.CasClient;
+import org.whut.data.CollectionData;
+import org.whut.data.dataDao;
 import org.whut.strings.UrlStrings;
 import org.whut.utils.JsonUtils;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 
 public class InfoActivity extends Activity {
@@ -25,8 +32,11 @@ public class InfoActivity extends Activity {
 	safeManager,contactPhone,equipmentVariety,unitNumber,manufactureUnit,manufactureDate,specification,
 	workLevel,riskValue,ratedLiftWeight;
 
-	
-	
+	private TextView textView;
+	private ImageView imageView;
+	String address, Variety, Value, Point;
+	private List<CollectionData> list;
+	private CollectionData[] info;
 	
 	
 	@Override
@@ -36,6 +46,7 @@ public class InfoActivity extends Activity {
 		finish();
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,12 +66,52 @@ public class InfoActivity extends Activity {
 		workLevel = (TextView)findViewById(R.id.workLevel);
 		riskValue=(TextView)findViewById(R.id.riskValue);
 		ratedLiftWeight=(TextView)findViewById(R.id.ratedLiftWeight);
+		textView=(TextView)findViewById(R.id.tv_collection);
+		imageView=(ImageView)findViewById(R.id.image);
 		
 		new Thread(new getInfoThread()).start();
 
+		list=new ArrayList<CollectionData>() ;
+	    address=getIntent().getExtras().getString("unitAddress");
+		initData();
+
+		if (info.length==0) {
+			
+			textView.setOnClickListener(new MyListener());
+			
+		}else {
+			for (int i = 0; i < info.length; i++) {
+				if (info[i].getunitAddress().equals(address)) {
+					textView.setText("取消收藏");
+					imageView.setBackground(getResources().getDrawable(R.drawable.movie_rating_full));
+					
+						 textView.setOnClickListener(new MyListener());
+					
+		          
+				}else {
+					textView.setOnClickListener(new MyListener());
+	               
+				}
+			}
+		}
 		MyApplication.getInstance().addActivity(this);
 		
 	}
+	
+	private void initData(){
+		dataDao ddDao=new dataDao(InfoActivity.this);
+	    list = ddDao.get();
+		info = new CollectionData[list.size()];
+		
+		int m = 0;
+		for (CollectionData cData : list) {
+			info[m] = new CollectionData(cData.getunitAddress(),
+					cData.getequipmentVariety(), cData.getriskValue(),
+					cData.getuserPoint());
+			m++;
+		}
+	}
+
 	
 	static class MyHandler extends Handler{
 		
@@ -90,7 +141,9 @@ public class InfoActivity extends Activity {
 			theActivity.workLevel.setText(list.get(0).get("workLevel"));
 			theActivity.riskValue.setText(list.get(0).get("riskValue"));
 			theActivity.ratedLiftWeight.setText(list.get(0).get("ratedLiftWeight"));
-			
+			theActivity.Variety=list.get(0).get("equipmentVariety");
+			theActivity.Value=list.get(0).get("riskValue");
+			theActivity.Point=list.get(0).get("userPoint");
 		}
 		
 	}
@@ -113,6 +166,30 @@ public class InfoActivity extends Activity {
 				e.printStackTrace();
 			}
 		
+		}
+		
+	}
+	public class MyListener implements OnClickListener{
+
+		@SuppressLint("NewApi")
+		@Override
+		public void onClick(View v) {
+			if (textView.getText().toString().equals("收藏")) {
+				imageView.setBackground(getResources().getDrawable(R.drawable.movie_rating_full));
+				textView.setText("取消收藏");
+				dataDao dd = new dataDao(InfoActivity.this);
+				CollectionData cd = new CollectionData(address,Variety, Value, Point);
+				dd.insert(cd);
+				
+			}else {
+				imageView.setBackground(getResources().getDrawable(R.drawable.movie_rating_empty));
+				textView.setText("收藏");
+				dataDao ddDao=new dataDao(InfoActivity.this);
+				ddDao.delete(address);
+				
+				initData();
+			}
+			
 		}
 		
 	}

@@ -756,6 +756,17 @@ public class MapActivity extends Activity {
 				}
 			}
 		});
+		
+		RelativeLayout bottom_btn_collection = (RelativeLayout) findViewById(R.id.navi);
+		bottom_btn_collection.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent=new Intent(MapActivity.this,CollectionActivity.class);
+				startActivity(intent);
+				
+			}
+		});
 
 		MyApplication.getInstance().addActivity(this);
 

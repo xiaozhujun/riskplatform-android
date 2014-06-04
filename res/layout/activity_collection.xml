@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+<RelativeLayout
+    android:id="@+id/layout_show"
+    android:layout_alignParentTop="true"
+    android:layout_width="fill_parent"
+    android:layout_height="54.0dip"
+    android:minHeight="54.0dip"
+    >
+     <TextView 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:text="@string/collection"
+        android:textSize="20sp"
+        />
+
+           <TextView 
+               android:gravity="center" 
+               android:id="@+id/btn_fav_edit" 
+               android:clickable="true" 
+               android:layout_width="54.0dip" 
+               android:layout_height="fill_parent" 
+               android:text="@string/edit_text"
+               android:layout_alignParentRight="true" 
+               android:layout_centerVertical="true" />
+
+</RelativeLayout>
+   
+    <ListView
+        android:layout_below="@id/layout_show" 
+        android:id="@+id/lv_collection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ></ListView>
+            <LinearLayout
+                
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal" 
+                android:id="@+id/fav_bat_del" 
+                android:layout_width="fill_parent"
+                android:visibility="gone" 
+                android:layout_height="wrap_content">
+            <Button 
+                android:textColor="#ff000000" 
+                android:id="@+id/btnCancelAll"  
+                android:layout_width="100dp" 
+                android:layout_height="wrap_content" 
+                android:layout_gravity="left"
+                android:text="@string/CancelAll" 
+                />
+            <Button 
+                android:textColor="#ff000000" 
+                android:id="@+id/btnSelAll" 
+                android:layout_width="100dp" 
+                android:layout_height="wrap_content" 
+                android:text="@string/SelAll" 
+                android:layout_gravity="center"
+                />
+            <Button 
+                android:textColor="#ff000000" 
+                android:id="@+id/btnDelAll" 
+                android:layout_width="100dip" 
+                android:layout_height="wrap_content" 
+                android:layout_gravity="right"
+                android:text="@string/DelAll" 
+                />
+        </LinearLayout>
+
+</RelativeLayout>

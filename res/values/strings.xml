@@ -110,4 +110,11 @@
     <string name="serach_device_num">设备数量</string>
     <string name="show_list">列表</string>
 	<string name="common_searchbox_search_hint_text">搜索</string>
+	    <string name="collection">我的收藏</string>
+    <string name="edit_text">编辑</string>
+    <string name="CancelAll">取消全部</string>
+    <string name="SelAll">全选</string>
+    <string name="DelAll">删除</string>
+    <string name="ss">收藏</string>
+	
 </resources>

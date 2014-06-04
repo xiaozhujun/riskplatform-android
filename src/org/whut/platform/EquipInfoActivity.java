@@ -1,15 +1,19 @@
 package org.whut.platform;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.whut.application.MyApplication;
 import org.whut.client.CasClient;
+import org.whut.data.CollectionData;
+import org.whut.data.dataDao;
 import org.whut.strings.UrlStrings;
 import org.whut.utils.JsonUtils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -40,6 +44,14 @@ public class EquipInfoActivity extends Activity{
 	private static boolean isCollected = false;
 	
 	private String[] unitAddresses;
+	private String equipmentVariety;
+	private String riskValue;
+	private String userPoint;
+	private List<CollectionData>list;
+	private CollectionData[] info;
+    private SimpleAdapter adapter;
+
+    private dataDao data;
 
 	@Override
 	public void onBackPressed() {
@@ -48,23 +60,22 @@ public class EquipInfoActivity extends Activity{
 		finish();
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_equip_info);
 
-
-
 		tv = (TextView) findViewById(R.id.tv_topbar_middle_detail);
-
+		 data=new dataDao(EquipInfoActivity.this);
 
 		sp1 = (Spinner) findViewById(R.id.spinner01);
 		sp2 = (Spinner) findViewById(R.id.spinner02);
 
 		sp1.setAdapter(new ArrayAdapter<String>(getApplicationContext(),R.layout.item_sp_types,riskValues));
 		sp2.setAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.item_sp_types, equipmentVarieties));
-
+ 
 		handler = new MyHandler(this);
 
 		listView = (ListView) findViewById(R.id.listview1);
@@ -89,13 +100,34 @@ public class EquipInfoActivity extends Activity{
 
 		new Thread(new GetWebDataThread()).start();
 
-
-
-
+        list=new ArrayList<CollectionData>();
+		
+		
+		initData();
+		
+ 
+		
+       
 		MyApplication.getInstance().addActivity(this);
 
 	}
 
+
+	private void initData(){
+		dataDao ddDao=new dataDao(EquipInfoActivity.this);
+		 list = ddDao.get();
+		info = new CollectionData[list.size()];	
+		int m = 0;
+		for (CollectionData cData : list) {
+			info[m] = new CollectionData(cData.getunitAddress(),
+					cData.getequipmentVariety(), cData.getriskValue(),
+					cData.getuserPoint());
+			m++;
+		}
+	}
+	
+
+	
 	static class MyHandler extends Handler{
 		WeakReference<EquipInfoActivity> mActivity;
 
@@ -111,8 +143,13 @@ public class EquipInfoActivity extends Activity{
 			List<Map<String,String>> list  = (List<Map<String, String>>) msg.obj;
 			//此处有误,公司地址和unitAddresses混淆（服务器端数据库设计问题，暂不修改，后期改正）
 			theActivity.tv.setText(theActivity.unitAddresses[0]);
-
-			SimpleAdapter adapter = new SimpleAdapter(theActivity, list, R.layout.popup_bottom_view, new String[]{"equipmentVariety","riskValue","userPoint"}, new int[]{R.id.layout_title,R.id.riskValue,R.id.use_point})
+			
+			theActivity.equipmentVariety = list.get(0).get("equipmentVariety");
+			theActivity.riskValue = list.get(0).get("riskValue");
+			theActivity.userPoint = list.get(0).get("userPoint");
+			
+			
+			 theActivity.adapter = new SimpleAdapter(theActivity, list, R.layout.popup_bottom_view, new String[]{"equipmentVariety","riskValue","userPoint"}, new int[]{R.id.layout_title,R.id.riskValue,R.id.use_point})
 			{
 
 				@Override
@@ -131,26 +168,32 @@ public class EquipInfoActivity extends Activity{
 
 					final RelativeLayout button_collect = (RelativeLayout) convertView.findViewById(R.id.button_call_layout);
 					final Button button = (Button) button_collect.findViewById(R.id.button_call); 
-
-
-
+					//button_collect.setOnClickListener(theActivity.new MyListener());
+              
 					button_collect.setOnClickListener(new View.OnClickListener() {
 
 						@Override
 						public void onClick(View v) {
-							// TODO Auto-generated method stub	
+							
 							if(isCollected){						
 								button.setText("收藏");
 								Drawable drawable = theActivity.getResources().getDrawable(R.drawable.place_ratingbar_full_empty);
 								drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
 								button.setCompoundDrawables(drawable,null,null,null);					
 								isCollected = false;
+								theActivity.data.delete(theActivity.tv.getText().toString());
+								
+								theActivity.adapter.notifyDataSetChanged();
 							}else{
 								button.setText("取消收藏");	
 								Drawable drawable = theActivity.getResources().getDrawable(R.drawable.place_ratingbar_full_filled);
 								drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
 								button.setCompoundDrawables(drawable,null,null,null);
-								isCollected = true;
+								isCollected = true;	
+								CollectionData cd = new CollectionData(theActivity.tv.getText().toString(),theActivity.equipmentVariety, theActivity.riskValue, theActivity.userPoint);
+								theActivity.data.insert(cd);
+								
+								theActivity.adapter.notifyDataSetChanged();
 							}
 						}
 					});
@@ -158,7 +201,7 @@ public class EquipInfoActivity extends Activity{
 					return convertView;
 				}
 			};
-			theActivity.listView.setAdapter(adapter);			
+			theActivity.listView.setAdapter(theActivity.adapter);			
 
 		}
 
@@ -185,5 +228,6 @@ public class EquipInfoActivity extends Activity{
 			}
 		}
 
-	}		
+	}
+
 }
