@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffededed" >
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/common_top_bar_collection" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/title_bar" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/commom_card_layout_interval" />
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/company_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="单位名称"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/unitAddress"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/company_name"
+                    android:background="@null"
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/address_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="@string/address_Id"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/addressId"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/address_code"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/company_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="@string/company_code"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/organizeCode"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/company_code"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/company_places"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="@string/company_places"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/usePoint"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/company_places"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/company_manager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="@string/company_manager"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/safeManager"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/company_manager"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/company_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="@string/company_phone"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/contactPhone"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/company_phone"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/company_device_types"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="@string/company_device_types"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/equipmentVariety"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/company_device_types"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/company_inner_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="@string/company_inner_code"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/unitNumber"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/company_inner_code"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/manufacture_Unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="@string/manufacture_Unit"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/manufactureUnit"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/manufacture_Unit"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/manufacture_Date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="@string/manufacture_Date"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/manufactureDate"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/manufacture_Date"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/Specification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="@string/Specification"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/specification"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/Specification"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/company_conclusion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="@string/company_conclusion"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/workLevel"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/company_conclusion"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/riskvalue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="@string/riskValue"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/riskValue"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/riskvalue"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/common_card_layout.margin_L_R"
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/common_listitem_singleline_high"
+                android:background="@drawable/common_listitem_top_selector" >
+
+                <TextView
+                    android:id="@+id/RatedLiftWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:text="@string/RatedLiftWeight"
+                    android:textColor="#ff333333"
+                    android:textSize="16.0dip" />
+
+                <TextView
+                    android:id="@+id/ratedLiftWeight"
+                    style="?android:attr/textViewStyle"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:layout_toRightOf="@id/RatedLiftWeight"
+                    android:background="@null"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:gravity="center"
+                    android:textColor="#ff999999"
+                    android:textSize="14.0dip" />
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginRight="10.0dip"
+                    android:background="@drawable/common_divider_line" />
+            </RelativeLayout>
+            
+             <View
+                android:layout_width="fill_parent"
+                android:layout_height="@dimen/commom_card_layout_interval" />
+            
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
