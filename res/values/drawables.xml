@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <item type="drawable" name="border_color">#ffcccccc</item>
-    <item type="drawable" name="transparent">#00000000</item>
-    <item type="drawable" name="user_center_tool_bg">#ffffffff</item>
-    <item type="drawable" name="user_center_tool_bg_pressed">#ffebf6ff</item>
-    <drawable name="app_icon">@drawable/notification_icon</drawable>
-    <item type="drawable" name="screen_background_light">#ffffffff</item>
-</resources>
