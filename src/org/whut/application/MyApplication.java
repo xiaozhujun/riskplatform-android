@@ -43,4 +43,13 @@ public class MyApplication extends Application{
 		}
 		System.exit(0);
 	}
+	
+	public void exit2(){
+		if(activities!=null&&activities.size()>0){
+			for(Activity activity:activities){
+				activity.finish();
+			}	
+		}
+	}
+	
 }

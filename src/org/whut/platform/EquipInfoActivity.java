@@ -25,28 +25,20 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-//import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class EquipInfoActivity extends Activity{
 
 	private TextView tv;
-	private Spinner sp1;
-	private Spinner sp2;
 	private ListView listView;
 	private MyHandler handler;
-	private String[] riskValues = {"风险值","6","5","4","3","2","1"};
-	private String[] equipmentVarieties = {"设备类型","冶金桥式起重机","通用门式起重机","电动葫芦门式起重机","门式起重机","轨道式集装箱门式起重机","轮胎式门式起重机"};
-
 	
 	private String[] unitAddresses;
 
@@ -72,11 +64,7 @@ public class EquipInfoActivity extends Activity{
 
 		tv = (TextView) findViewById(R.id.tv_topbar_middle_detail);
 
-		sp1 = (Spinner) findViewById(R.id.spinner01);
-		sp2 = (Spinner) findViewById(R.id.spinner02);
-
-		sp1.setAdapter(new ArrayAdapter<String>(getApplicationContext(),R.layout.item_sp_types,riskValues));
-		sp2.setAdapter(new ArrayAdapter<String>(getApplicationContext(), R.layout.item_sp_types, equipmentVarieties));
+	
 
 		user_id = getIntent().getExtras().getInt("user_id");
 		Log.i("msg", "从上一Activity中传来的user_id为"+user_id);
@@ -153,11 +141,13 @@ public class EquipInfoActivity extends Activity{
 						it.putExtra("unitAddress", theActivity.tv.getText().toString());	
 						it.putExtra("user_id", user_id);
 						it.putExtra("device_id", device_ids[position]);
+						it.putExtra("tag", "from_equip_to_info");
 						Log.i("msg", "用户"+user_id+"对"+device_ids[position]+"为已收藏");
 						}else{
 						it.putExtra("unitAddress", theActivity.tv.getText().toString());
 						it.putExtra("user_id", user_id);
 						it.putExtra("device_id", device_ids[position]);
+						it.putExtra("tag", "from_equip_to_info");
 							Log.i("msg", "用户"+user_id+"对"+device_ids[position]+"为未收藏");
 						}
 				

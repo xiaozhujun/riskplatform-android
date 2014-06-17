@@ -2,6 +2,10 @@ package org.whut.platform;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import org.whut.application.MyApplication;
 import org.whut.client.CasClient;
 import org.whut.database.entity.User;
 import org.whut.database.service.imp.UserServiceDao;
@@ -21,6 +25,7 @@ import android.content.SharedPreferences.Editor;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -54,11 +59,54 @@ public class MainActivity extends Activity {
 		finish();
 	}
 
+	
+	
+	/** 
+	 * 菜单、返回键响应 
+	 */  
+	@Override  
+	public boolean onKeyDown(int keyCode, KeyEvent event) {  
+		if(keyCode == KeyEvent.KEYCODE_BACK)  {   
+				exitBy2Click();
+		}  
+		return false;  
+	}  
+	/** 
+	 * 双击退出函数 
+	 */  
+	private static Boolean isExit = false;  
+
+	private void exitBy2Click() {  
+		Timer tExit = null;  
+		if (isExit == false) {  
+			isExit = true; // 准备退出  
+			Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();  
+			tExit = new Timer();  
+			tExit.schedule(new TimerTask() {  
+				@Override  
+				public void run() {  
+					isExit = false; // 取消退出  
+				}  
+			}, 2000); // 如果2秒钟内没有按下返回键，则启动定时器取消掉刚才执行的任务  
+
+		} else {  
+			MyApplication.getInstance().exit();
+		}  
+	}
+	
+	
+	
+	
+	
+	
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		MyApplication.getInstance().addActivity(MainActivity.this);
+		
 		preferences = getSharedPreferences("usenamedata",Context.MODE_PRIVATE);
 		edt_uname = (AutoCompleteTextView) findViewById(R.id.aedt_uname);
 		if (!(null==preferences.getStringSet("username", null))) {
@@ -103,20 +151,7 @@ public class MainActivity extends Activity {
 
 			}
 		});
-		//		edt_uname.setOnItemSelectedListener(new OnItemSelectedListener() {
-		//
-		//			@Override
-		//			public void onItemSelected(AdapterView<?> parent, View view,
-		//					int position, long id) {
-		//				edt_pwd.setText((String)preferences.getString((String)parent.getItemAtPosition(position), null));
-		//			}
-		//
-		//			@Override
-		//			public void onNothingSelected(AdapterView<?> parent) {
-		//				// TODO Auto-generated method stub
-		//				
-		//			}
-		//		});
+
 
 		btn_login.setOnTouchListener(new View.OnTouchListener() {
 

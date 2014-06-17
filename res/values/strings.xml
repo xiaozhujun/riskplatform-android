@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">起重机械风险管理平台</string>
+    <string name="app_name">起重助手</string>
     <string name="action_settings">设置</string>
     <string name="username">用户名：</string>
     <string name="username_hint">请输入用户名</string>
@@ -27,8 +27,6 @@
     <string name="button">确定</string>
     <string name="btn_show_rank">风险排行</string>
     <string name="btn_show_list">列表</string>
-    <string name="title_activity_list">ListActivity</string>
-    <string name="title_activity_info">InfoActivity</string>
     <string name="company_names">机构名称</string>
     <string name="device_info">设备信息</string>
     <string name="company_name">单位名称</string>
@@ -65,29 +63,7 @@
     <string name="myCollection">我的收藏</string>
     <string name="fav_empty_hint_for_pos_loginned">"没有发现收藏的点
 您可以在设备详情页点击“收藏”按钮，收藏喜欢的设备"</string>
-    
-    <string-array name="riskvalueSpinnerData">
-        <item>风险区间</item>
-        <item>1-9</item>
-		<item>2-9</item>
-		<item>3-9</item>
-		<item>4-9</item>
-		<item>5-9</item>
-		<item>6-9</item>
-		<item>7-9</item>
-		<item>8-9</item>
-   </string-array>    
-    <string-array name="useyearSpinnerData">
-        <item>使用年限</item>
-        <item>0-5</item>
-		<item>5-10</item>
-		<item>10-15</item>
-		<item>15-20</item>
-		<item>20-25</item>
-		<item>25-30</item>
-		<item>30-35</item>
-		<item>35-40</item>
-   </string-array>
+      
    <string-array name="defaultProvinceSpinnerData">
        <item >请选择省份</item>
    </string-array>
@@ -114,4 +90,5 @@
     <string name="serach_device_num">设备数量</string>
     <string name="show_list">列表</string>
 	<string name="common_searchbox_search_hint_text">搜索</string>
+	<string name="no_data">暂无此种类型设备数据，请重试！</string>
 </resources>

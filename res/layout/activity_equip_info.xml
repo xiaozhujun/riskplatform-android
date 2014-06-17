@@ -5,41 +5,17 @@
     android:orientation="vertical"
     tools:context=".EquipInfoActivity" >
 
-    <include 
-        layout="@layout/common_topbar_equip"
-        />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:background="#ffededed">
-
-        <Spinner
-            android:id="@+id/spinner01"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingLeft="20dp"
-            android:textSize="20sp" />
-
-        <Spinner
-            android:id="@+id/spinner02"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:paddingRight="20dp"
-            android:textSize="20sp" />
-    </LinearLayout>
+    <include layout="@layout/common_topbar_equip" />
 
     <ListView
         android:id="@+id/listview1"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
+        android:background="#ffededed"
         android:listSelector="@android:color/transparent"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp" 
-        android:background="#ffededed"/>
+        android:paddingRight="20dp" />
+
 
 </LinearLayout>

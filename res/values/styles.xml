@@ -125,4 +125,18 @@
         <item name="android:divider">@drawable/list_divider</item>
         <item name="android:dividerHeight">2.0px</item>
     </style>
+    
+    <style name="CommonListItemTitleText">
+        <item name="android:textSize">16.0dip</item>
+        <item name="android:textColor">#ff333333</item>
+    </style>
+    <style name="NavCommonListItemTitleText">
+        <item name="android:textSize">16.0sp</item>
+        <item name="android:textColor">#ff333333</item>
+    </style>
+    
+    <style name="NavCommonListItemInfoText">
+        <item name="android:textSize">14.0sp</item>
+        <item name="android:textColor">#ff737373</item>
+    </style>
 </resources>

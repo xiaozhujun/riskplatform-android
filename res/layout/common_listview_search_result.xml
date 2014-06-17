@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/LinearLayout01"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffededed"
+    android:minHeight="64.0dip" >
+
+    <RelativeLayout
+        android:id="@+id/all_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10.0dip"
+        android:layout_marginRight="10.0dip"
+        android:layout_marginTop="10.0dip"
+        android:background="@drawable/common_listitem_singleline_selector"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/popup_bottom_view_bg"
+            android:paddingBottom="6.0dip"
+            android:paddingLeft="10.0dip"
+            android:paddingRight="10.0dip"
+            android:paddingTop="6.0dip" >
+
+            <TextView
+                android:id="@+id/layout_title"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:singleLine="true"
+                android:text="1.汽车起重机"
+                android:textColor="@color/title"
+                android:textSize="17.0dip" />
+
+            <RelativeLayout
+                android:id="@+id/RatingItem"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/layout_title"
+                android:layout_below="@id/layout_title"
+                android:layout_marginBottom="8.0dip"
+                android:layout_marginTop="8.0dip" >
+
+                <LinearLayout
+                    android:id="@+id/rating_textview1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        android:id="@+id/riskValue"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:singleLine="true"
+                        android:text="风险值：6"
+                        android:textColor="#ffb2b2b2"
+                        android:textSize="14.0dip" />
+
+                    <TextView
+                        android:id="@+id/traffic_violation"
+                        android:layout_width="0.0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:singleLine="true"
+                        android:text="使用年限：8年"
+                        android:textColor="@color/listitem_text"
+                        android:textSize="14.0dip" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/unitAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/rating_textview1"
+                    android:layout_marginTop="8.0dip"
+                    android:singleLine="true"
+                    android:text="所属公司：湖北省武汉市江岸区赵家条9号"
+                    android:textColor="@color/listitem_text"
+                    android:textSize="14.0dip" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/tel_and_book_container"
+                android:layout_width="fill_parent"
+                android:layout_height="34.0dip"
+                android:layout_below="@id/RatingItem"
+                android:layout_marginTop="5.0dip" >
+
+                <ImageView
+                    android:id="@+id/horizontal_line"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1.0px"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/common_divider_line" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_below="@id/horizontal_line"
+                    android:layout_marginTop="3.0dip"
+                    android:paddingLeft="5.0dip"
+                    android:paddingRight="5.0dip" >
+
+                    <RelativeLayout
+                        android:id="@+id/button_route_layout"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/poi_item_book_bg"
+                        android:clickable="true" >
+
+                        <Button
+                            android:id="@+id/button_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:background="@android:color/transparent"
+                            android:clickable="false"
+                            android:drawableLeft="@drawable/mylocation_detail"
+                            android:focusable="false"
+                            android:text="@string/details"
+                            android:textColor="@color/des"
+                            android:textSize="12.0dip" />
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/vertical_line1"
+                        android:layout_width="1.0px"
+                        android:layout_height="20.0dip"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4.0dip"
+                        android:background="@drawable/vertial_divider_line" />
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="1.0px"
+        android:layout_below="@id/all_content"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent" />
+
+</RelativeLayout>

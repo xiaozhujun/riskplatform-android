@@ -271,7 +271,7 @@ public class MapActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(show_record-1>0){
+				if(show_record>0){
 					iconReturn(show_record);
 					show_record = show_record - 1;
 					initOverlayData(show_record);
@@ -382,6 +382,9 @@ public class MapActivity extends Activity {
 	private void iconTapReturn(int i){
 		if(tap_record!=i){
 			switch(Integer.parseInt(CompanyPositions[tap_record].split(",")[2])){
+			case 0:
+				mOverlay.getAllItem().get(tap_record).setMarker(getResources().getDrawable(R.drawable.blue));
+				break;
 			case 1:
 				mOverlay.getAllItem().get(tap_record).setMarker(getResources().getDrawable(R.drawable.blue));
 				break;
@@ -426,7 +429,7 @@ public class MapActivity extends Activity {
 		((TextView)findViewById(R.id.tv_sectionB)).setText("设备数量："+CompanyPositions[i].split(",")[3]);
 		((TextView)findViewById(R.id.tv_sectionC)).setText("负责人："+CompanyPositions[i].split(",")[4]);
 		((TextView)findViewById(R.id.tv_sectionD)).setText("风险值："+CompanyPositions[i].split(",")[2]);
-		mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.select_icon3));
+		mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.select_icon7));
 		tap_record = i;
 		mOverlay.updateItem(mOverlay.getAllItem().get(i));
 		Double lat = Double.parseDouble(CompanyPositions[i].split(
@@ -474,6 +477,9 @@ public class MapActivity extends Activity {
 
 	private void iconReturn(int i){
 		switch(Integer.parseInt(CompanyPositions[i].split(",")[2])){
+		case 0:
+			mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.blue));
+			break;
 		case 1:
 			mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.blue));
 			break;
@@ -510,7 +516,7 @@ public class MapActivity extends Activity {
 	}
 
 	private void setSelectionData(int i){
-		mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.select_icon2));
+		mOverlay.getAllItem().get(i).setMarker(getResources().getDrawable(R.drawable.select_icon7));
 		if(view_record){
 			showPopupAfterInflated();
 			if(areaInIntent!=areaName){
@@ -695,10 +701,12 @@ public class MapActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				Intent it = new Intent(MapActivity.this,MoreSearchActivity.class);
+				Intent it = new Intent(MapActivity.this,SearchActivity.class);
 				it.putExtra("provinceName",provinceName);
 				it.putExtra("cityName",cityName);
 				it.putExtra("areaName",areaName);
+				it.putExtra("user_id", user_id);
+				Log.i("msg", areaName);
 				tap_record = 0;
 				show_record = 0;
 				startActivity(it);
@@ -759,17 +767,19 @@ public class MapActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent it=new Intent(MapActivity.this,AreaRankPieChart.class);
+				Intent it=new Intent(MapActivity.this,DistributeActivity.class);
 				if(provinceInIntent!=null){
 					it.putExtra("province",provinceInIntent);
 					it.putExtra("city",cityInIntent);
 					it.putExtra("area",areaInIntent);
+					it.putExtra("user_id", user_id);
 					Log.i("msg", provinceInIntent+cityInIntent+areaInIntent);
 					startActivity(it);	
 				}else{
 					it.putExtra("province", provinceName);
 					it.putExtra("city", cityName);
 					it.putExtra("area", areaName);
+					it.putExtra("user_id", user_id);
 					startActivity(it);
 				}
 			}
@@ -786,6 +796,19 @@ public class MapActivity extends Activity {
 				startActivity(it);
 			}
 		});
+		
+		RelativeLayout bottom_btn_more = (RelativeLayout) findViewById(R.id.to_personal);
+		bottom_btn_more.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent it = new Intent(MapActivity.this,MoreActivity.class);
+				it.putExtra("user_id",user_id);
+				startActivity(it);
+			}
+		});
+		
 		
 		
 		MyApplication.getInstance().addActivity(this);
@@ -807,6 +830,9 @@ public class MapActivity extends Activity {
 						(int) (mLng * 1E6));
 				OverlayItem item = new OverlayItem(p, unitAddresses[i], "");
 				switch (mRiskValue) {
+				case 0:
+					item.setMarker(getResources().getDrawable(R.drawable.blue));
+					break;
 				case 1:
 					item.setMarker(getResources().getDrawable(R.drawable.blue));
 					break;
@@ -953,7 +979,6 @@ public class MapActivity extends Activity {
 		public void handleMessage(Message msg) {
 			MapActivity theActivity = mActivity.get();
 			if (msg.what == 5) {
-				Log.i("msg","msg.what=5");
 				if (CompanyPositions.length > 0) {
 					Toast.makeText(theActivity,
 							"你所在位置为" + provinceName + cityName + areaName,

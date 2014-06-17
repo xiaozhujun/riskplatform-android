@@ -325,5 +325,11 @@ public class CasClient
     }
 
 
+    public boolean reset(){
+    	instance = null;
+    	boolean result = false;
+    	result = logout();
+    	return result;
+    }
 
 }

@@ -14,5 +14,7 @@
 	<dimen name="common_card_layout_right">10.0dip</dimen>
 	<dimen name="common_listitem_singleline_high">50.0dip</dimen>
 	<dimen name="common_searchbox_home_voicebtn_width">50.0dip</dimen>
+	<dimen name="common_listitem_singleline_leftimage_marginleft">10.0dip</dimen>
+	<dimen name="common_listitem_singleline_leftimage_marginright">10.0dip</dimen>
 	
 </resources>

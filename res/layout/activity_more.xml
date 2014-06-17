@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffededed"
+    android:orientation="vertical" >
+
+    <include layout="@layout/common_topbar_equip" />
+
+    <RelativeLayout
+        android:id="@+id/nav_settings_always_light"
+        android:layout_width="fill_parent"
+        android:layout_height="60.0dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/nav_settings_top_selector"
+        android:clickable="false"
+        android:minHeight="60.0dip" >
+
+        <ImageView
+            android:id="@+id/iv_listitem_multiline_left_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15.0dip"
+            android:layout_marginRight="15.0dip"
+            android:src="@drawable/nav_always_light" />
+
+        <CheckBox
+            android:id="@+id/nav_settings_always_light_cb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10.0dip"
+            android:background="@drawable/nav_checkout_icon"
+            />
+
+        <LinearLayout
+            android:id="@+id/ll_listitem_multiline_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/nav_settings_always_light_cb"
+            android:layout_toRightOf="@id/iv_listitem_multiline_left_image"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_listitem_multiline_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10.0dip"
+                android:singleLine="true"
+                android:text="保持屏幕常亮"
+                android:textAppearance="@style/NavCommonListItemTitleText" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginRight="10.0dip"
+            android:background="@drawable/nav_settings_divider_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/nav_settings_always_light1"
+        android:layout_width="fill_parent"
+        android:layout_height="60.0dip"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/nav_settings_bottom_selector"
+        android:clickable="false"
+        android:minHeight="60.0dip" >
+
+        <ImageView
+            android:id="@+id/iv_listitem_multiline_left_image1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15.0dip"
+            android:layout_marginRight="15.0dip"
+            android:src="@drawable/nav_disclaimer" />
+
+        <CheckBox
+            android:id="@+id/nav_settings_always_light_cb1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10.0dip"
+            android:button="@null"
+            android:background="@drawable/nav_checkout_icon"
+             />
+
+        <LinearLayout
+            android:id="@+id/ll_listitem_multiline_text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/nav_settings_always_light_cb1"
+            android:layout_toRightOf="@id/iv_listitem_multiline_left_image1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_listitem_multiline_title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10.0dip"
+                android:singleLine="true"
+                android:text="2G/3G网络下显示图片"
+                android:textAppearance="@style/NavCommonListItemTitleText" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginRight="10.0dip"
+            android:background="@drawable/nav_settings_divider_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_1"
+        style="@style/common_card_layout.margin_L_R"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/common_listitem_singleline_high"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/common_listitem_top_selector" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/common_listitem_singleline_leftimage_marginleft"
+            android:layout_marginRight="@dimen/common_listitem_singleline_leftimage_marginright"
+            android:singleLine="true"
+            android:text="我的信息"
+            android:textAppearance="@style/CommonListItemTitleText" />
+
+        <ImageView
+            android:layout_width="@dimen/common_searchbox_home_voicebtn_width"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="-10.0dip"
+            android:src="@drawable/common_icon_next_arrow" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginRight="10.0dip"
+            android:background="@drawable/common_divider_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_order"
+        style="@style/common_card_layout.margin_L_R"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/common_listitem_singleline_high"
+        android:background="@drawable/common_listitem_middle_selector" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/common_listitem_singleline_leftimage_marginleft"
+            android:layout_marginRight="@dimen/common_listitem_singleline_leftimage_marginright"
+            android:singleLine="true"
+            android:text="版本检测"
+            android:textAppearance="@style/CommonListItemTitleText" />
+
+        <ImageView
+            android:layout_width="@dimen/common_searchbox_home_voicebtn_width"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="-10.0dip"
+            android:src="@drawable/common_icon_next_arrow" />
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="1.0px"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginRight="10.0dip"
+            android:background="@drawable/common_divider_line" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/my_travel"
+        style="@style/common_card_layout.margin_L_R"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/common_listitem_singleline_high"
+        android:background="@drawable/common_listitem_bottom_selector" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/common_listitem_singleline_leftimage_marginleft"
+            android:layout_marginRight="@dimen/common_listitem_singleline_leftimage_marginright"
+            android:singleLine="true"
+            android:text="产品信息"
+            android:textAppearance="@style/CommonListItemTitleText" />
+
+        <ImageView
+            android:layout_width="@dimen/common_searchbox_home_voicebtn_width"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="-10.0dip"
+            android:src="@drawable/common_icon_next_arrow" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/log_out"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/activity_modify_btn_background"
+        android:clickable="true"
+        android:gravity="center"
+        android:paddingBottom="14.5dip"
+        android:paddingTop="14.5dip"
+        android:text="切换账号"
+        android:textColor="#ffffffff"
+        android:textSize="18.0dip" />
+
+</LinearLayout>
