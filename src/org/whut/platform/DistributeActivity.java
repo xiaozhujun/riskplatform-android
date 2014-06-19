@@ -1,6 +1,7 @@
 package org.whut.platform;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -34,6 +36,8 @@ public class DistributeActivity extends Activity{
 	private TextView tv_topbar_middle_detail;
 	private RelativeLayout tv_topbar_right_map_layout;
 	
+	private TextView risk_level;
+	
 	private List<String> areas;
 	
 	private String province;
@@ -42,6 +46,7 @@ public class DistributeActivity extends Activity{
 
 	
 	private List<Map<String,String>> data;
+	private List<String> risk_Level;
 	
 	private MyHandler handler;
 	private ListView listView;
@@ -64,6 +69,18 @@ public class DistributeActivity extends Activity{
 		handler = new MyHandler(this);
 		
 		listView = (ListView) findViewById(R.id.listView_distribute);
+		
+		risk_Level = new ArrayList<String>();	
+		risk_Level.add("风险等级 1 : 风险值（0-10）");
+		risk_Level.add("风险等级 2 : 风险值（11-20）");
+		risk_Level.add("风险等级 3 : 风险值（21-30）");
+		risk_Level.add("风险等级 4 : 风险值（31-40）");
+		risk_Level.add("风险等级 5 : 风险值（41-50）");
+		risk_Level.add("风险等级 6 : 风险值（51-60）");
+		risk_Level.add("风险等级 7 : 风险值（61-70）");
+		risk_Level.add("风险等级 8 : 风险值（71-80）");
+		risk_Level.add("风险等级 9 : 风险值（81-90）");
+		risk_Level.add("风险等级 10 : 风险值（91-100）");
 		
 		new Thread(new AreaThread()).start();
 		new Thread(new GetAreasThread()).start();
@@ -100,6 +117,65 @@ public class DistributeActivity extends Activity{
 						new Thread(new AreaThread()).start();
 					}
 				}).show();
+			}
+		});
+		
+		risk_level = (TextView) findViewById(R.id.risk_level);
+		risk_level.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Builder alertDialog = new AlertDialog.Builder(DistributeActivity.this);
+				alertDialog.setAdapter(new ArrayAdapter<String>(DistributeActivity.this, R.layout.common_dialogitem_risk_level, risk_Level){
+
+					@Override
+					public View getView(int position, View convertView,
+							ViewGroup parent) {
+						// TODO Auto-generated method stub
+						convertView = super.getView(position, convertView, parent);
+						TextView v = (TextView)convertView.findViewById(R.id.textView_one);
+						switch(position){
+						case 0:
+							v.setTextColor(Color.parseColor("#ff737373"));
+							break;
+						case 1:
+							v.setTextColor(Color.parseColor("#00FFFF"));
+							break;
+						case 2:
+							v.setTextColor(Color.parseColor("#00FF7F"));
+							break;
+						case 3:
+							v.setTextColor(Color.parseColor("#20B2AA"));
+							break;
+						case 4:
+							v.setTextColor(Color.parseColor("#32CD32"));
+							break;
+						case 5:
+							v.setTextColor(Color.parseColor("#DAA520"));
+							break;
+						case 6:
+							v.setTextColor(Color.parseColor("#FFA500"));
+							break;
+						case 7:
+							v.setTextColor(Color.parseColor("#FF4500"));
+							break;
+						case 8:
+							v.setTextColor(Color.parseColor("#FF1493"));
+							break;
+						case 9:
+							v.setTextColor(Color.RED);
+							break;
+					}
+						
+						return convertView;
+					}
+					
+					
+					
+					
+				}, null).setTitle("风险等级说明")
+				.setNegativeButton("确定", null).show();
 			}
 		});
 		

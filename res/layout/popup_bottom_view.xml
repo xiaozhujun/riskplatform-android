@@ -157,6 +157,7 @@
                             android:focusable="true"
                             android:text="@string/poi_tel_btn"
                             android:textColor="@color/des"
+                            android:paddingLeft="15dp"
                             android:button="@drawable/check_box_selector"
                             android:textSize="12.0dip" />
                     </RelativeLayout>
