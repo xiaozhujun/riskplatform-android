@@ -223,7 +223,7 @@ public class CasClient
             {
                 case 200:
                 {
-                    Log.i("cas client doGet response:", responseBody);
+                    Log.i("msg", responseBody);
                     return responseBody;
                 }
                 default:
@@ -258,7 +258,7 @@ public class CasClient
             {
                 case 200:
                 {
-                    Log.i("cas client doPost response:", responseBody);
+                    Log.i("msg", responseBody);
                     return responseBody;
                 }
                 default:

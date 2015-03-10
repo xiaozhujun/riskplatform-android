@@ -10,8 +10,8 @@ public class UrlStrings {
 	public static final String GET_ONE_UNIT_ADDRESS_INFO = BASE_URL+"/rs/craneinspectreport/getOneUnitAddressInfo";
 	public static final String GET_PROVINCE_LIST=BASE_URL+"/rs/dataRuleAddress/getProvinceAndColorWithDataRole";
 	public static final String GET_AREA_INFO = BASE_URL+"/rs/craneinspectreport/getAreaInfo";
-	public static final String GET_CITY_BY_PROVINCE=BASE_URL+"/rs/dataRuleAddress/getCityAndColorWithDataRole";
-	public static final String GET_AREA_BY_CITY=BASE_URL+"/rs/dataRuleAddress/getAreaAndColorWithDataRole";
+	public static final String GET_CITY_BY_PROVINCE=BASE_URL+"/rs/dataRuleAddress/getCityWithDataRole";
+	public static final String GET_AREA_BY_CITY=BASE_URL+"/rs/dataRuleAddress/getAreaWithDataRole";
 	public static final String GET_PROVINCE_RISK=BASE_URL+"/rs/dataRuleAddress/getProvinceAndColorWithDataRole";
 	public static final String GET_CITY_RISK=BASE_URL+"/rs/dataRuleAddress/getCityAndColorWithDataRole";
 	public static final String GET_AREA_RISK=BASE_URL+"/rs/dataRuleAddress/getAreaAndColorWithDataRole";

@@ -1053,6 +1053,7 @@ public class MapActivity extends Activity {
 			params.put("province", province);
 			params.put("city", city);
 			params.put("area", area);
+
 			Message msg = Message.obtain();
 			String message = CasClient.getInstance().doPost(
 					UrlStrings.GET_AREA_INFO, params);
